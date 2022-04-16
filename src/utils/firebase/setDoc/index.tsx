@@ -56,10 +56,12 @@ export const useListen: (params: IListenProps) => any = ({ collectionRef }) => {
     } else {
       onSnapshot(collectionRef, (snapshot: any) => {
         // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-        setDocs(snapshot.docs.map((doc: any) => doc.data()));
+        setDocs(
+          snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
+        );
         console.log(
           "data: ",
-          snapshot.docs.map((doc: any) => doc.data())
+          snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
         );
       });
     }

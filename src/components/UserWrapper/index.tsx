@@ -7,8 +7,17 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import StarIcon from "@mui/icons-material/Star";
+import PhoneIcon from "@mui/icons-material/Phone";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+
+import { useNavigate } from "react-router-dom";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -42,10 +51,10 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
+        {["Logo"].map((text, index) => (
+          <ListItem button onClick={() => navigate("/home")} key={text}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <FiberManualRecordIcon />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
@@ -53,32 +62,62 @@ export default function TemporaryDrawer() {
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
+        {[
+          { label: "Cart", Icon: ShoppingCartIcon, link: "/cart" },
+          { label: "Wishlist", Icon: StarIcon, link: "/wishlist" },
+          { label: "Contact", Icon: PhoneIcon, link: "/contact" },
+        ].map(({ label, Icon, link }) => (
+          <ListItem onClick={() => navigate(link)} button key={label}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <Icon />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={label} />
           </ListItem>
         ))}
       </List>
     </Box>
   );
 
+  const navigate = useNavigate();
   return (
     <div>
-      {(["left"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={toggleDrawer("left", true)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+            ></Typography>
+            <Button
+              color="inherit"
+              onClick={() => {
+                window.setTimeout(() => navigate("/"), 1000);
+              }}
+            >
+              Logout
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+
+      <Drawer
+        anchor={"left"}
+        open={state["left"]}
+        onClose={toggleDrawer("left", false)}
+      >
+        {list("left")}
+      </Drawer>
     </div>
   );
 }

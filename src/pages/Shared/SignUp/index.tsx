@@ -1,7 +1,8 @@
 import React from "react";
+import { AuthBase } from "components";
 
 const SignUpPage: React.FC = () => {
-  return <h1>Sign Up</h1>;
+  return <AuthBase />;
 };
 
 export default SignUpPage;

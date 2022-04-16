@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { APITest } from "pages";
 // Routing
-import React, { useState } from "react";
+import { useState } from "react";
 
 // UI
 import { ThemeProvider } from "@mui/material/styles";
@@ -18,7 +18,15 @@ import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/700.css";
 
-const Pages = [{ path: "/test", Component: APITest }];
+import { Login, Home, Cart, NotFound } from "pages";
+
+const Pages = [
+  { path: "/cart", Component: Cart },
+  { path: "/home", Component: Home },
+  { path: "/", Component: Login },
+  { path: "/test", Component: APITest },
+  { path: "*", Component: NotFound },
+];
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

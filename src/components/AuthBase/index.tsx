@@ -13,14 +13,16 @@ import { LoadingButton } from "@mui/lab";
 import { makeStyles, createStyles, useTheme } from "@mui/styles";
 // import { deepOrange } from "@mui/material/colors";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import Carousel, { CarouselProps } from "react-material-ui-carousel";
-import ReDietLight from "assets/images/ReDiet-light.png";
-import ReDietDark from "assets/images/ReDiet-dark.png";
-import ReDietPlain from "assets/images/ReDiet-plain-2.png";
-import BGImg1 from "assets/images/LoginBG-1.svg";
-import BGImg2 from "assets/images/LoginBG-2.svg";
-import BGImg3 from "assets/images/LoginBG-3.svg";
-import BGImg4 from "assets/images/LoginBG-4.svg";
+import Carousel from "react-material-ui-carousel";
+import { CarouselProps } from "types";
+// import ReDietLight from "assets/images/ReDiet-light.png";
+// import ReDietDark from "assets/images/ReDiet-dark.png";
+// import ReDietPlain from "assets/images/ReDiet-plain-2.png";
+// import BGImg1 from "assets/images/LoginBG-1.svg";
+// import BGImg2 from "assets/images/LoginBG-2.svg";
+// import BGImg3 from "assets/images/LoginBG-3.svg";
+// import BGImg4 from "assets/images/LoginBG-4.svg";
+const TestBG = require("./LoginBG-2.svg");
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,16 +55,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CarouselItems = [
-  { img: BGImg3, text: "Text " },
-  { img: BGImg4, text: "Text " },
+  { img: TestBG, text: "Text 1" },
+  { img: TestBG, text: "Text 2" },
   {
-    img: BGImg1,
+    img: TestBG,
     text: "Text ",
   },
-  { img: BGImg2, text: "Text " },
+  { img: TestBG, text: "Text 3" },
 ];
 
-const carouselSettings: CarouselProps = {
+const carouselSettings: any = {
   animation: "slide",
   duration: 500,
   stopPlayOnHover: true,
@@ -113,7 +115,7 @@ const Login: React.FC = () => {
                   <Grid item xs={12}>
                     <img
                       className={classes.logo}
-                      src={ReDietPlain}
+                      // src={ReDietPlain}
                       alt="rediet-logo"
                     />
                   </Grid>
