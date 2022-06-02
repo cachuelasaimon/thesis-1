@@ -1,36 +1,27 @@
-import React from "react";
+import { useState, FC } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // MUI
-import { Grid, Button, Typography, Rating, Box } from "@mui/material";
+import {
+  Grid,
+  Button,
+  Typography,
+  Rating,
+  Box,
+  Container,
+} from "@mui/material";
 
 // Custom
-import { UserWrapper, ProductViewer } from "components";
+import { UserWrapper, ProductViewer, AddToCart } from "components";
 import { collection } from "firebase/firestore";
-import { useListen, collections, database } from "utils";
-
+import { useListen, collections, database, formatCurrency } from "utils";
+import { IProduct, IReview } from "types";
 // ! Transfer to another file
-interface IProduct {
-  doc: any; // ? Firebase Document
-  description?: string;
-  picture: string;
-  id: string;
-  name: string;
-  price: number;
-  stocks: number;
-  tags?: string[];
-  ratings?: number;
-}
 
-interface IReview {
-  description: string;
-  picture: string;
-  rating: number;
-  title: string;
-  userID: string;
-}
-
-const SingleProduct: React.FC = () => {
+const SingleProduct: FC = () => {
+  const [openAddToCart, setOpenAddToCart] = useState<boolean>(false);
+  const handleOpenAddToCart = () => setOpenAddToCart(true);
+  const handleCloseAddToCart = () => setOpenAddToCart(false);
   const { productId } = useParams();
   // Fetch Product Details
   const { docs: productDocs } = useListen({
@@ -78,36 +69,66 @@ const SingleProduct: React.FC = () => {
       <UserWrapper />
       <div style={{ margin: " 1.5rem 3rem" }}>
         {/* Display Product Details */}
-        {products && !productNotFound && product && (
-          <Grid container spacing={3}>
-            <Grid item container md={12} lg={6}>
-              <ProductViewer
-                productName={product.name}
-                picture={product.picture}
-              />
-            </Grid>{" "}
-            <Grid
-              item
-              container
-              md={12}
-              lg={6}
-              alignContent="flex-start"
-              rowSpacing={0}
-            >
-              <Typography variant="h4" mb={3} sx={{ minWidth: "100%" }}>
-                {product.name}
-              </Typography>
-              {!noReviews && (
-                <Box display="flex" width="100%" alignItems="center">
-                  <Rating readOnly precision={0.5} value={rating} />{" "}
-                  <Typography variant="body2" mx={1}>
-                    {reviews.length} reviews
+        <Container maxWidth="xl">
+          {" "}
+          {products && !productNotFound && product && (
+            <Grid container spacing={2}>
+              <Grid item container md={12} lg={7}>
+                <ProductViewer
+                  productName={product.name}
+                  picture={product.picture}
+                />
+              </Grid>{" "}
+              <Grid
+                item
+                container
+                md={12}
+                lg={5}
+                alignContent="flex-start"
+                rowSpacing={0}
+              >
+                <Typography variant="h3" mb={3} sx={{ minWidth: "100%" }}>
+                  {product.name}
+                </Typography>
+                {!noReviews && (
+                  <Box display="flex" width="100%" alignItems="center">
+                    <Rating readOnly precision={0.5} value={rating} />{" "}
+                    <Typography variant="body2" mx={1}>
+                      {reviews.length} reviews
+                    </Typography>
+                  </Box>
+                )}
+                <Box my={4} alignSelf={"flex-end"} display="flex" width="100%">
+                  <Typography variant="body1">
+                    {formatCurrency(product.price)}
                   </Typography>
                 </Box>
-              )}
+
+                <Box width="100%" display="flex" justifyContent="center">
+                  <Button
+                    onClick={handleOpenAddToCart}
+                    sx={{
+                      padding: "1.5rem 0",
+                      borderRadius: "25px",
+                    }}
+                    fullWidth
+                    variant="contained"
+                  >
+                    Add to Cart
+                  </Button>
+                </Box>
+
+                <Box my={3} width="100%">
+                  <Typography my={2} sx={{ minWidth: "100%" }} variant="h5">
+                    Description
+                  </Typography>
+                  <Typography variant="body1">{product.description}</Typography>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        )}
+          )}
+          <AddToCart onClose={handleCloseAddToCart} open={openAddToCart} />
+        </Container>
       </div>
     </>
   );
