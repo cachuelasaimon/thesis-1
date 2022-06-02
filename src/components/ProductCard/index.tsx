@@ -14,6 +14,7 @@ export default function MediaCard({
   description,
   picture,
   price,
+  id,
   ...rest
 }: any) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -26,12 +27,19 @@ export default function MediaCard({
 
   console.log(rest);
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        // "&:hover": { boxShadow: "10px 12px 33px -3px rgba(122,122,122,0.75)" },
+      }}
+    >
       <CardMedia
+        sx={{ cursor: "pointer" }}
         component="img"
         height="200"
         image={picture}
         alt="product-picture"
+        onClick={() => navigate(`/product/${id}`)}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

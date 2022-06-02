@@ -18,7 +18,7 @@ import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/700.css";
 
-import { Login, Home, Cart, NotFound } from "pages";
+import { Login, Home, Cart, SingleProduct, NotFound } from "pages";
 
 const Pages = [
   { path: "/cart", Component: Cart },
@@ -26,6 +26,7 @@ const Pages = [
   { path: "/", Component: Login },
   { path: "/test", Component: APITest },
   { path: "*", Component: NotFound },
+  { path: "/product/:productId", Component: SingleProduct },
 ];
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,7 +45,7 @@ function App() {
         <Router>
           <Routes>
             {Pages.map(({ path, Component }) => (
-              <Route path={path} element={<Component />} />
+              <Route key={path} path={path} element={<Component />} />
             ))}
           </Routes>
         </Router>
