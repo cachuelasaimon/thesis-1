@@ -60,30 +60,32 @@ const SingleProduct: FC = () => {
   return (
     <>
       <UserWrapper />
-      <div style={{ margin: " 1.5rem 3rem" }}>
-        {/* Display Product Details */}
-        <Container maxWidth="xl">
-          {" "}
-          {products && !productNotFound && product && (
-            <Grid container spacing={2}>
-              <Grid item container md={12} lg={8}>
-                <ProductViewer
-                  productName={product.name}
-                  picture={product.picture}
-                />
-              </Grid>{" "}
-              <Grid
-                item
-                container
-                md={12}
-                lg={4}
-                alignContent="flex-start"
-                rowSpacing={0}
-              >
-                <Typography variant="h3" gutterBottom sx={{ minWidth: "100%" }}>
-                  {product.name}
-                </Typography>
-                {/* {!noReviews && (
+      {/* Display Product Details */}
+      <Container
+        sx={(theme) => ({ marginTop: theme.spacing(2) })}
+        maxWidth="xl"
+      >
+        {" "}
+        {products && !productNotFound && product && (
+          <Grid container spacing={2}>
+            <Grid item container md={12} lg={8}>
+              <ProductViewer
+                productName={product.name}
+                picture={product.picture}
+              />
+            </Grid>{" "}
+            <Grid
+              item
+              container
+              md={12}
+              lg={4}
+              alignContent="flex-start"
+              rowSpacing={0}
+            >
+              <Typography variant="h3" gutterBottom sx={{ minWidth: "100%" }}>
+                {product.name}
+              </Typography>
+              {/* {!noReviews && (
                   <Box display="flex" width="100%" alignItems="center">
                     <Rating readOnly precision={0.5} value={rating} />{" "}
                     <Typography variant="body2" mx={1}>
@@ -91,53 +93,48 @@ const SingleProduct: FC = () => {
                     </Typography>
                   </Box>
                 )} */}
-                <Box alignSelf={"flex-end"} display="flex" width="100%">
-                  <Typography variant="body1">
-                    {formatCurrency(product.price)}
-                  </Typography>
-                </Box>
+              <Box alignSelf={"flex-end"} display="flex" width="100%">
+                <Typography variant="body1">
+                  {formatCurrency(product.price)}
+                </Typography>
+              </Box>
 
-                <Box width="100%" display="flex" justifyContent="center">
-                  <Button
-                    onClick={handleOpenAddToCart}
-                    sx={{
-                      padding: "1.5rem 0",
-                      borderRadius: "25px",
-                    }}
-                    fullWidth
-                    variant="contained"
-                  >
-                    Add to Cart
-                  </Button>
-                </Box>
+              <Box width="100%" display="flex" justifyContent="center">
+                <Button
+                  onClick={handleOpenAddToCart}
+                  sx={{
+                    padding: "1.5rem 0",
+                    borderRadius: "25px",
+                  }}
+                  fullWidth
+                  variant="contained"
+                >
+                  Add to Cart
+                </Button>
+              </Box>
 
-                <Box width="100%">
-                  <Typography
-                    gutterBottom
-                    sx={{ minWidth: "100%" }}
-                    variant="h6"
-                  >
-                    Description
-                  </Typography>
-                  <Typography variant="body1">{product.description}</Typography>
-                </Box>
+              <Box width="100%">
+                <Typography gutterBottom sx={{ minWidth: "100%" }} variant="h6">
+                  Description
+                </Typography>
+                <Typography variant="body1">{product.description}</Typography>
+              </Box>
 
-                {/* Reviews */}
-                {noReviews ? (
-                  <>Be the first one to have create a review</>
-                ) : (
-                  <Box my={3} width="100%" padding="0">
-                    {" "}
-                    <Reviews reviews={reviews} />{" "}
-                  </Box>
-                )}
-              </Grid>
+              {/* Reviews */}
+              {noReviews ? (
+                <>Be the first one to have create a review</>
+              ) : (
+                <Box my={3} width="100%" padding="0">
+                  {" "}
+                  <Reviews reviews={reviews} />{" "}
+                </Box>
+              )}
             </Grid>
-          )}
-          {/* Modal(s) */}
-          <AddToCart onClose={handleCloseAddToCart} open={openAddToCart} />
-        </Container>
-      </div>
+          </Grid>
+        )}
+        {/* Modal(s) */}
+        <AddToCart onClose={handleCloseAddToCart} open={openAddToCart} />
+      </Container>
     </>
   );
 };
