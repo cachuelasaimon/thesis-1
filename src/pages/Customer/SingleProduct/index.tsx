@@ -2,7 +2,14 @@ import { useState, FC } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // MUI
-import { Grid, Button, Typography, Box, Container } from "@mui/material";
+import {
+  Grid,
+  Button,
+  Typography,
+  Box,
+  Container,
+  Hidden,
+} from "@mui/material";
 
 // Custom
 import { UserWrapper, ProductViewer, AddToCart, Reviews } from "components";
@@ -63,11 +70,28 @@ const SingleProduct: FC = () => {
       {/* Display Product Details */}
       <Container
         sx={(theme) => ({ marginTop: theme.spacing(2) })}
-        maxWidth="xl"
+        maxWidth="lg"
       >
         {" "}
         {products && !productNotFound && product && (
           <Grid container spacing={2}>
+            <Hidden mdUp>
+              <Grid item xs={12}>
+                <Typography variant="h4" gutterBottom sx={{ minWidth: "100%" }}>
+                  {product.name}
+                </Typography>
+                <Box
+                  sx={(theme) => ({ marginBottom: theme.spacing(2) })}
+                  alignSelf={"flex-end"}
+                  display="flex"
+                  width="100%"
+                >
+                  <Typography variant="body1">
+                    {formatCurrency(product.price)}
+                  </Typography>
+                </Box>
+              </Grid>
+            </Hidden>
             <Grid item container md={12} lg={8}>
               <ProductViewer
                 productName={product.name}
@@ -82,30 +106,29 @@ const SingleProduct: FC = () => {
               alignContent="flex-start"
               rowSpacing={0}
             >
-              <Typography variant="h3" gutterBottom sx={{ minWidth: "100%" }}>
-                {product.name}
-              </Typography>
-              {/* {!noReviews && (
-                  <Box display="flex" width="100%" alignItems="center">
-                    <Rating readOnly precision={0.5} value={rating} />{" "}
-                    <Typography variant="body2" mx={1}>
-                      {reviews.length} reviews
-                    </Typography>
-                  </Box>
-                )} */}
-              <Box alignSelf={"flex-end"} display="flex" width="100%">
-                <Typography variant="body1">
-                  {formatCurrency(product.price)}
+              <Hidden mdDown>
+                <Typography variant="h4" gutterBottom sx={{ minWidth: "100%" }}>
+                  {product.name}
                 </Typography>
-              </Box>
+                <Box
+                  sx={(theme) => ({ marginBottom: theme.spacing(2) })}
+                  alignSelf={"flex-end"}
+                  display="flex"
+                  width="100%"
+                >
+                  <Typography variant="body1">
+                    {formatCurrency(product.price)}
+                  </Typography>
+                </Box>
+              </Hidden>
 
               <Box width="100%" display="flex" justifyContent="center">
                 <Button
                   onClick={handleOpenAddToCart}
-                  sx={{
-                    padding: "1.5rem 0",
+                  sx={(theme) => ({
+                    padding: `${theme.spacing(2)} 0`,
                     borderRadius: "25px",
-                  }}
+                  })}
                   fullWidth
                   variant="contained"
                 >
@@ -113,10 +136,10 @@ const SingleProduct: FC = () => {
                 </Button>
               </Box>
 
-              <Box width="100%">
-                <Typography gutterBottom sx={{ minWidth: "100%" }} variant="h6">
-                  Description
-                </Typography>
+              <Box
+                width="100%"
+                sx={(theme) => ({ marginTop: theme.spacing(3) })}
+              >
                 <Typography variant="body1">{product.description}</Typography>
               </Box>
 

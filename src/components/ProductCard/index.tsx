@@ -3,11 +3,12 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
+// import Button from "@mui/material/Button";
+// import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useSnackbar } from "notistack";
+// import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import { formatCurrency } from "utils";
 
 export default function MediaCard({
   name,
@@ -17,11 +18,11 @@ export default function MediaCard({
   id,
   ...rest
 }: any) {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const triggerSnackbar = (message: string) => {
-    enqueueSnackbar(message, { variant: "success" });
-    window.setTimeout(() => closeSnackbar(), 1500);
-  };
+  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  // const triggerSnackbar = (message: string) => {
+  //   enqueueSnackbar(message, { variant: "success" });
+  //   window.setTimeout(() => closeSnackbar(), 1500);
+  // };
 
   const navigate = useNavigate();
 
@@ -42,14 +43,21 @@ export default function MediaCard({
         onClick={() => navigate(`/product/${id}`)}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="body1" component="div">
           {name}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {description}
+
+        <Typography
+          sx={(theme) => ({ marginTop: theme.spacing(3) })}
+          variant="body1"
+        >
+          {formatCurrency(price)}
         </Typography>
+        {/* <Typography variant="body2" color="text.secondary">
+          {description}
+        </Typography> */}
       </CardContent>
-      <CardActions>
+      {/* <CardActions>
         <Grid container justifyContent="flex-end" spacing={2}>
           <Grid item>
             <Button onClick={() => navigate("/checkout")} size="small">
@@ -60,7 +68,7 @@ export default function MediaCard({
             <Button size="small">Add To Cart</Button>
           </Grid>
         </Grid>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }

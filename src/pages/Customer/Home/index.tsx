@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
             {productList &&
               productList.length > 0 &&
               productList.map((product: any, index: number) => (
-                <Grid key={index} item xs={12} md={4} lg={3}>
+                <Grid key={index} item xs={6} md={4} lg={3}>
                   <ProductCard {...product} />
                 </Grid>
               ))}
