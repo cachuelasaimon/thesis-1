@@ -13,10 +13,7 @@ const HomePage: React.FC = () => {
     <div style={{ overflowX: "hidden" }}>
       <UserWrapper />
       <Container maxWidth="xl">
-        <Grid container>
-          <Grid item>
-            <h1>Home</h1>
-          </Grid>
+        <Grid my={5} container>
           <Grid item xs={12} container spacing={3}>
             {productList &&
               productList.length > 0 &&

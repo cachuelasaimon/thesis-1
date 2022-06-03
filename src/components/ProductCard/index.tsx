@@ -29,18 +29,19 @@ export default function MediaCard({
   console.log(rest);
   return (
     <Card
+      onClick={() => navigate(`/product/${id}`)}
+      elevation={0}
       sx={{
+        cursor: "pointer",
         maxWidth: 345,
         // "&:hover": { boxShadow: "10px 12px 33px -3px rgba(122,122,122,0.75)" },
       }}
     >
       <CardMedia
-        sx={{ cursor: "pointer" }}
+        sx={{ maxWidth: "100%", maxHeight: "100%", borderRadius: "5px" }}
         component="img"
-        height="200"
         image={picture}
         alt="product-picture"
-        onClick={() => navigate(`/product/${id}`)}
       />
       <CardContent>
         <Typography gutterBottom variant="body1" component="div">

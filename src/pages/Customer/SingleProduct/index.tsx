@@ -156,7 +156,13 @@ const SingleProduct: FC = () => {
           </Grid>
         )}
         {/* Modal(s) */}
-        <AddToCart onClose={handleCloseAddToCart} open={openAddToCart} />
+        {product && (
+          <AddToCart
+            product={product}
+            onClose={handleCloseAddToCart}
+            open={openAddToCart}
+          />
+        )}
       </Container>
     </>
   );
