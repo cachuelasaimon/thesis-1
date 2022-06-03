@@ -2,17 +2,10 @@ import { useState, FC } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // MUI
-import {
-  Grid,
-  Button,
-  Typography,
-  Rating,
-  Box,
-  Container,
-} from "@mui/material";
+import { Grid, Button, Typography, Box, Container } from "@mui/material";
 
 // Custom
-import { UserWrapper, ProductViewer, AddToCart } from "components";
+import { UserWrapper, ProductViewer, AddToCart, Reviews } from "components";
 import { collection } from "firebase/firestore";
 import { useListen, collections, database, formatCurrency } from "utils";
 import { IProduct, IReview } from "types";
@@ -73,7 +66,7 @@ const SingleProduct: FC = () => {
           {" "}
           {products && !productNotFound && product && (
             <Grid container spacing={2}>
-              <Grid item container md={12} lg={7}>
+              <Grid item container md={12} lg={8}>
                 <ProductViewer
                   productName={product.name}
                   picture={product.picture}
@@ -83,22 +76,22 @@ const SingleProduct: FC = () => {
                 item
                 container
                 md={12}
-                lg={5}
+                lg={4}
                 alignContent="flex-start"
                 rowSpacing={0}
               >
-                <Typography variant="h3" mb={3} sx={{ minWidth: "100%" }}>
+                <Typography variant="h3" mb={2} sx={{ minWidth: "100%" }}>
                   {product.name}
                 </Typography>
-                {!noReviews && (
+                {/* {!noReviews && (
                   <Box display="flex" width="100%" alignItems="center">
                     <Rating readOnly precision={0.5} value={rating} />{" "}
                     <Typography variant="body2" mx={1}>
                       {reviews.length} reviews
                     </Typography>
                   </Box>
-                )}
-                <Box my={4} alignSelf={"flex-end"} display="flex" width="100%">
+                )} */}
+                <Box my={2} alignSelf={"flex-end"} display="flex" width="100%">
                   <Typography variant="body1">
                     {formatCurrency(product.price)}
                   </Typography>
@@ -124,9 +117,20 @@ const SingleProduct: FC = () => {
                   </Typography>
                   <Typography variant="body1">{product.description}</Typography>
                 </Box>
+
+                {/* Reviews */}
+                {noReviews ? (
+                  <>Be the first one to have create a review</>
+                ) : (
+                  <Box my={3} width="100%" padding="0">
+                    {" "}
+                    <Reviews reviews={reviews} />{" "}
+                  </Box>
+                )}
               </Grid>
             </Grid>
           )}
+          {/* Modal(s) */}
           <AddToCart onClose={handleCloseAddToCart} open={openAddToCart} />
         </Container>
       </div>

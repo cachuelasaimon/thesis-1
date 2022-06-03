@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Box } from "@mui/material";
 
 interface IProductViewerProps {
   picture: string;
@@ -6,12 +7,31 @@ interface IProductViewerProps {
 }
 
 const ProductViewer: FC<IProductViewerProps> = ({ picture, productName }) => {
+  const handleClick = () => {
+    window.open(picture, "_blank");
+  };
   return (
-    <img
-      style={{ maxWidth: "100%", borderRadius: "5px" }}
-      alt={productName.toLowerCase().split(" ").join("-")}
-      src={picture}
-    />
+    <Box display="flex" width="100%">
+      <div
+        style={{
+          alignSelf: "top",
+          minWidth: "100%",
+          backgroundSize: "cover",
+        }}
+      >
+        <img
+          style={{
+            maxWidth: "100%",
+            maxHeight: "100%",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+          onClick={handleClick}
+          alt={productName.toLowerCase().split(" ").join("-")}
+          src={picture}
+        />
+      </div>
+    </Box>
   );
 };
 
