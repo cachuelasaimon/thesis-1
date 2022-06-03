@@ -3,12 +3,12 @@ import {
   Box,
   Grid,
   Typography,
-  Divider,
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
+import { format } from "date-fns";
 
 // Custom
 import { StyledRating } from "components";
@@ -24,7 +24,7 @@ const Reviews: FC<IReviewProps> = ({ reviews }) => {
     reviews.length;
   return (
     <Accordion elevation={0} sx={{ padding: "0" }}>
-      <AccordionSummary expandIcon={<ExpandMore />}>
+      <AccordionSummary sx={{ padding: "0" }} expandIcon={<ExpandMore />}>
         <Box
           width="100%"
           display="flex"
@@ -35,12 +35,26 @@ const Reviews: FC<IReviewProps> = ({ reviews }) => {
           <StyledRating readOnly precision={0.5} value={rating} />
         </Box>
       </AccordionSummary>
-      <AccordionDetails>
+      <AccordionDetails sx={{ paddingLeft: "0px" }}>
         <Grid container spacing={3}>
           {reviews.map((review: IReview) => (
             <Grid item xs={12}>
               <Typography variant="body1">{review.title}</Typography>
-              <StyledRating size="small" readOnly value={review.rating} />
+              <Box
+                display="flex"
+                sx={(theme) => ({ marginBottom: theme.spacing(1) })}
+              >
+                <StyledRating readOnly precision={0.5} value={review.rating} />
+                <Typography
+                  sx={(theme) => ({ paddingLeft: theme.spacing(2) })}
+                  variant="body1"
+                  color="textSecondary"
+                >
+                  {review.userId.slice(0, 8)} -{" "}
+                  {format(review.createdAt.toDate(), "MMM dd, yyyy")}
+                </Typography>
+              </Box>
+              <Typography variant="body1">{review.description}</Typography>
             </Grid>
           ))}
         </Grid>

@@ -80,7 +80,7 @@ const SingleProduct: FC = () => {
                 alignContent="flex-start"
                 rowSpacing={0}
               >
-                <Typography variant="h3" mb={2} sx={{ minWidth: "100%" }}>
+                <Typography variant="h3" gutterBottom sx={{ minWidth: "100%" }}>
                   {product.name}
                 </Typography>
                 {/* {!noReviews && (
@@ -91,7 +91,7 @@ const SingleProduct: FC = () => {
                     </Typography>
                   </Box>
                 )} */}
-                <Box my={2} alignSelf={"flex-end"} display="flex" width="100%">
+                <Box alignSelf={"flex-end"} display="flex" width="100%">
                   <Typography variant="body1">
                     {formatCurrency(product.price)}
                   </Typography>
@@ -111,8 +111,12 @@ const SingleProduct: FC = () => {
                   </Button>
                 </Box>
 
-                <Box my={3} width="100%">
-                  <Typography my={2} sx={{ minWidth: "100%" }} variant="h5">
+                <Box width="100%">
+                  <Typography
+                    gutterBottom
+                    sx={{ minWidth: "100%" }}
+                    variant="h6"
+                  >
                     Description
                   </Typography>
                   <Typography variant="body1">{product.description}</Typography>

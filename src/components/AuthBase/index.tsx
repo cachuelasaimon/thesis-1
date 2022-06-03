@@ -14,7 +14,7 @@ import { makeStyles, createStyles, useTheme } from "@mui/styles";
 // import { deepOrange } from "@mui/material/colors";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Carousel from "react-material-ui-carousel";
-import { CarouselProps } from "types";
+// import { CarouselProps } from "types";
 // import ReDietLight from "assets/images/ReDiet-light.png";
 // import ReDietDark from "assets/images/ReDiet-dark.png";
 // import ReDietPlain from "assets/images/ReDiet-plain-2.png";
@@ -226,7 +226,7 @@ const Login: React.FC = () => {
               {CarouselItems.map(({ text, img }) => (
                 <div className={classes.carouseItem}>
                   <Grid
-                    sx={{ marginBottom: "1rem" }}
+                    sx={(theme) => ({ marginBottom: theme.spacing(2) })}
                     container
                     justifyContent="center"
                   >
