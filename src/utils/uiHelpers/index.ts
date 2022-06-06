@@ -11,3 +11,6 @@ export const useErrorNotif = () => {
   };
   return renderError;
 };
+
+export const altImageName: (imgName: string) => string = (imgName) =>
+  imgName.toLowerCase().split(" ").join("-");
