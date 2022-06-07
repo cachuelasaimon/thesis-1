@@ -1,6 +1,6 @@
 import React from "react";
 import { UserWrapper, Cart } from "components";
-import { Box } from "@mui/material";
+import { Box, Grid, Paper } from "@mui/material";
 import { collections, useListen } from "utils";
 import { IUser } from "types";
 
@@ -22,26 +22,18 @@ const CartPage: React.FC = () => {
   return (
     <div style={{ overflowX: "hidden" }}>
       <UserWrapper />
-      <Box
-        sx={(theme) => ({
-          maxWidth: "100vw",
-          margin: `0 ${theme.spacing(5)}`,
-          boxSizing: "border-box",
-        })}
-      >
-        <h1>Cart</h1>
-        <>
-          {cartId && (
-            <Box
-              sx={(theme) => ({
-                paddingBottom: theme.spacing(3),
-              })}
-            >
-              <Cart cartId={cartId} />
-            </Box>
-          )}
-        </>
-      </Box>
+      <Grid sx={{ minHeight: "100vh" }} container>
+        {cartId && (
+          <Box
+            sx={(theme) => ({
+              paddingBottom: theme.spacing(3),
+            })}
+          >
+            {/* <Paper>Test</Paper> */}
+            <Cart cartId={cartId} />
+          </Box>
+        )}
+      </Grid>
     </div>
   );
 };

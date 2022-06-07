@@ -44,7 +44,7 @@ const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product }) => {
         <Typography>{name}</Typography>
         {/* Increase Decrease Item */}
         <Box display="flex">
-          <IconButton onClick={() => setQuantity((q) => --q)}>
+          <IconButton onClick={() => setQuantity((q) => (q > 1 ? --q : q))}>
             <Remove />
           </IconButton>
           <InputBase
@@ -70,7 +70,9 @@ const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product }) => {
             value={quantity}
             onChange={handleQuantityChange}
           />{" "}
-          <IconButton onClick={() => setQuantity((q) => ++q)}>
+          <IconButton
+            onClick={() => setQuantity((q) => (q < product.stocks ? ++q : q))}
+          >
             <Add />
           </IconButton>
         </Box>
