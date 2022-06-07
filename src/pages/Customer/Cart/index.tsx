@@ -25,6 +25,8 @@ const CartPage: React.FC = () => {
       <Grid sx={{ minHeight: "100vh" }} container>
         {cartId && (
           <Box
+            width="100%"
+            my={3}
             sx={(theme) => ({
               paddingBottom: theme.spacing(3),
             })}

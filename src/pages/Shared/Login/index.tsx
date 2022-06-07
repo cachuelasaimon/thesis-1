@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { TextField } from "formik-mui";
 import * as Yup from "yup";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Box, Typography } from "@mui/material";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,8 +17,15 @@ const LoginPage: React.FC = () => {
     navigate("/home");
   };
   return (
-    <>
-      <h1 style={{ textAlign: "center" }}>Login</h1>
+    <Box sx={(theme) => ({ minHeight: "100vh", paddingTop: theme.spacing(3) })}>
+      <Typography
+        color="textPrimary"
+        gutterBottom
+        variant="h4"
+        style={{ textAlign: "center" }}
+      >
+        Login
+      </Typography>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={Yup.object().shape({
@@ -55,7 +62,7 @@ const LoginPage: React.FC = () => {
           </Form>
         )}
       </Formik>
-    </>
+    </Box>
   );
 };
 

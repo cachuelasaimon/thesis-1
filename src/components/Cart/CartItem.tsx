@@ -32,16 +32,26 @@ const CartItem: React.FC<ICartItemProps> = ({ picture, quantity, name }) => {
     //     </Grid>
     //   </Grid>
     // </Grid>>
-    <Container maxWidth="lg">
-      <Grid container spacing={3} sx={{ width: "100vw" }}>
-        <Grid item xs={6}>
-          <Paper>Tset</Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper>Tset</Paper>
-        </Grid>
+    <Grid container spacing={2}>
+      <Grid item xs={4} sm={4}>
+        {" "}
+        <img
+          src={picture}
+          style={{
+            maxWidth: "100%",
+            borderRadius: "5px",
+            marginRight: theme.spacing(3),
+          }}
+          alt={name as string}
+        />
       </Grid>
-    </Container>
+      <Grid item xs={8} sm={8}>
+        {" "}
+        <Typography color="textPrimary" variant="h6">
+          {name}
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
 
