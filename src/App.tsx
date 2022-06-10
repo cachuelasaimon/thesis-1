@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 function App() {
   const [theme] = useState(CustomTheme.darkTheme);
-  const classes = useStyles(theme);
+  const classes = useStyles(theme as Theme);
 
   return (
     <ThemeProvider theme={theme}>
