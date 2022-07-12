@@ -22,9 +22,9 @@ const theme = {
     palette: {
       mode: "dark",
       // @ts-ignore
-      google: {
-        main: grey[200],
-      },
+      // google: {
+      //   main: grey[200],
+      // },
     },
     typography: {
       fontFamily: ["Poppins", "sans-serif"].join(","),
