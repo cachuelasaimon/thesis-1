@@ -6,12 +6,13 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Rating,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import { format } from "date-fns";
 
 // Custom
-import { StyledRating } from "components";
+// import { StyledRating } from "components";
 import { IReview } from "types";
 
 interface IReviewProps {
@@ -32,19 +33,23 @@ const Reviews: FC<IReviewProps> = ({ reviews }) => {
           justifyContent="space-between"
         >
           <Typography variant="h6">Reviews ({reviews.length})</Typography>
-          <StyledRating readOnly precision={0.5} value={rating} />
+          <Rating readOnly precision={0.5} value={rating} />
         </Box>
       </AccordionSummary>
       <AccordionDetails sx={{ paddingLeft: "0px" }}>
         <Grid container spacing={3}>
-          {reviews.map((review: IReview) => (
-            <Grid item xs={12}>
+          {reviews.map((review: IReview, index) => (
+            <Grid
+              key={index + review.title || "" + review.createdAt || ""}
+              item
+              xs={12}
+            >
               <Typography variant="body1">{review.title}</Typography>
               <Box
                 display="flex"
                 sx={(theme) => ({ marginBottom: theme.spacing(1) })}
               >
-                <StyledRating readOnly precision={0.5} value={review.rating} />
+                <Rating readOnly precision={0.5} value={review.rating} />
                 <Typography
                   sx={(theme) => ({ paddingLeft: theme.spacing(2) })}
                   variant="body1"
