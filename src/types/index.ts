@@ -4,3 +4,4 @@ export * from "./IReview";
 export * from "./IUser";
 export * from "./IItem";
 export * from "./ICart";
+export * from "./IPage";
