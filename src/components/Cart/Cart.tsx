@@ -31,13 +31,6 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
   });
   const products: IProduct[] = productList || null;
 
-  console.log(
-    "cart item logs",
-    items.map((item) => ({
-      ...products.find((product) => product.id === item.productId),
-      ...item,
-    }))
-  );
   return (
     <>
       <Container maxWidth="lg">
@@ -62,7 +55,7 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
                         ...item,
                       }))
                       .map(({ picture, quantity, name, id }) => (
-                        <Grid item xs={12}>
+                        <Grid key={name || "" + id} item xs={12}>
                           <CartItem
                             picture={picture}
                             quantity={quantity}
@@ -78,6 +71,13 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
             <Grid item md={4}>
               <Paper sx={(theme) => ({ padding: theme.spacing(2) })}>
                 <Typography variant="h6">Proceed to Checkout</Typography>
+                <Button
+                  fullWidth={true}
+                  variant="contained"
+                  sx={{ borderRadius: "5px" }}
+                >
+                  Checkout
+                </Button>
               </Paper>
             </Grid>
           </Grid>
@@ -93,23 +93,25 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
           </Grid>
         </Hidden>
       </Container>
-      <Box
-        sx={(theme) => ({
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-          position: "fixed",
-          bottom: theme.spacing(2),
-        })}
-      >
-        <Button
-          size="large"
-          variant="contained"
-          sx={{ borderRadius: "25px", width: "85%" }}
+      <Hidden mdUp>
+        <Box
+          sx={(theme) => ({
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            position: "fixed",
+            bottom: theme.spacing(2),
+          })}
         >
-          Proceed to checkout
-        </Button>
-      </Box>
+          <Button
+            size="large"
+            variant="contained"
+            sx={{ borderRadius: "25px", width: "85%" }}
+          >
+            Proceed to checkout
+          </Button>
+        </Box>
+      </Hidden>
     </>
   );
 };

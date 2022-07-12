@@ -26,7 +26,6 @@ export default function MediaCard({
 
   const navigate = useNavigate();
 
-  console.log(rest);
   return (
     <Card
       onClick={() => navigate(`/product/${id}`)}

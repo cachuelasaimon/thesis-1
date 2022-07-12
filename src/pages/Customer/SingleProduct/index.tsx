@@ -46,7 +46,6 @@ const SingleProduct: FC = () => {
     ? reviews.reduce((acc: number, curr: IReview) => acc + curr.rating, 0) /
       reviews.length
     : 0;
-  console.log(rating);
 
   const navigate = useNavigate();
   if (productNotFound)
@@ -69,7 +68,7 @@ const SingleProduct: FC = () => {
       <UserWrapper />
       {/* Display Product Details */}
       <Container
-        sx={(theme) => ({ marginTop: theme.spacing(2) })}
+        sx={(theme) => ({ marginTop: theme.spacing(2), minHeight: "100vh" })}
         maxWidth="lg"
       >
         {" "}
@@ -77,7 +76,12 @@ const SingleProduct: FC = () => {
           <Grid container spacing={2}>
             <Hidden mdUp>
               <Grid item xs={12}>
-                <Typography variant="h4" gutterBottom sx={{ minWidth: "100%" }}>
+                <Typography
+                  color="textPrimary"
+                  variant="h4"
+                  gutterBottom
+                  sx={{ minWidth: "100%" }}
+                >
                   {product.name}
                 </Typography>
                 <Box
@@ -86,7 +90,7 @@ const SingleProduct: FC = () => {
                   display="flex"
                   width="100%"
                 >
-                  <Typography variant="body1">
+                  <Typography color="textPrimary" variant="body1">
                     {formatCurrency(product.price)}
                   </Typography>
                 </Box>
@@ -107,7 +111,12 @@ const SingleProduct: FC = () => {
               rowSpacing={0}
             >
               <Hidden mdDown>
-                <Typography variant="h4" gutterBottom sx={{ minWidth: "100%" }}>
+                <Typography
+                  color="textPrimary"
+                  variant="h4"
+                  gutterBottom
+                  sx={{ minWidth: "100%" }}
+                >
                   {product.name}
                 </Typography>
                 <Box
@@ -116,7 +125,7 @@ const SingleProduct: FC = () => {
                   display="flex"
                   width="100%"
                 >
-                  <Typography variant="body1">
+                  <Typography color="textPrimary" variant="body1">
                     {formatCurrency(product.price)}
                   </Typography>
                 </Box>
@@ -140,7 +149,9 @@ const SingleProduct: FC = () => {
                 width="100%"
                 sx={(theme) => ({ marginTop: theme.spacing(3) })}
               >
-                <Typography variant="body1">{product.description}</Typography>
+                <Typography color="textPrimary" variant="body1">
+                  {product.description}
+                </Typography>
               </Box>
 
               {/* Reviews */}
