@@ -24,9 +24,7 @@ const APITest: React.FC = () => {
   // const dispatch = useDispatch();
 
   const { docs } = useListen({ collectionRef: collections.products.ref });
-  React.useEffect(() => {
-    console.log(docs);
-  }, [docs]);
+  React.useEffect(() => {}, [docs]);
 
   // ? Submit case
   // const testAdd = async (values: any, { resetForm }: FormikHelpers<any>) => {
