@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { makeStyles, createStyles } from "@mui/styles";
 import React from "react";
 
-const OopsieSVG = require("./404.svg");
+// const OopsieSVG = require("./404.svg");
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -30,7 +30,7 @@ const NotFound = () => {
     >
       <Grid item>
         <img
-          src={OopsieSVG}
+          src="assets/images/404.svg"
           alt="page-not-found"
           style={{ maxHeight: "20rem" }}
         />

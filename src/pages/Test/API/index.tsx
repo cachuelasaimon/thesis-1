@@ -23,10 +23,8 @@ const APITest: React.FC = () => {
   // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   // const dispatch = useDispatch();
 
-  const { docs: Users } = useListen({ collectionRef: collections.address.ref });
-  // React.useEffect(() => {
-  //   console.log(docs);
-  // }, [docs]);
+  const { docs } = useListen({ collectionRef: collections.products.ref });
+  React.useEffect(() => {}, [docs]);
 
   // ? Submit case
   // const testAdd = async (values: any, { resetForm }: FormikHelpers<any>) => {

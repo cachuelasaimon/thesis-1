@@ -3,6 +3,12 @@ import { APITest } from "pages";
 // Routing
 import { useState } from "react";
 
+// Layouts
+import { WithAuth } from "layouts";
+
+// Types
+import { IPage } from "types";
+
 // UI
 import { ThemeProvider } from "@mui/material/styles";
 import { Theme } from "@mui/material";
@@ -18,14 +24,16 @@ import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/700.css";
 
-import { Login, Home, Cart, NotFound } from "pages";
+import { Login, Home, Cart, SingleProduct, NotFound, SignUp } from "pages";
 
-const Pages = [
-  { path: "/cart", Component: Cart },
-  { path: "/home", Component: Home },
-  { path: "/", Component: Login },
-  { path: "/test", Component: APITest },
-  { path: "*", Component: NotFound },
+const Pages: IPage[] = [
+  { path: "/cart", Component: Cart, requireAuth: false },
+  { path: "/home", Component: Home, requireAuth: true },
+  { path: "/", Component: Login, requireAuth: false },
+  { path: "/sign-up", Component: SignUp, requireAuth: false },
+  { path: "/test", Component: APITest, requireAuth: false },
+  { path: "*", Component: NotFound, requireAuth: false },
+  { path: "/product/:productId", Component: SingleProduct, requireAuth: true },
 ];
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -35,16 +43,26 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 function App() {
-  const [theme] = useState(CustomTheme.lightTheme);
-  const classes = useStyles(theme);
+  const [theme] = useState(CustomTheme.darkTheme);
+  const classes = useStyles(theme as Theme);
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <Router>
           <Routes>
-            {Pages.map(({ path, Component }) => (
-              <Route path={path} element={<Component />} />
+            {Pages.map(({ path, Component, requireAuth }) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  requireAuth ? (
+                    <WithAuth>{<Component />}</WithAuth>
+                  ) : (
+                    <Component />
+                  )
+                }
+              />
             ))}
           </Routes>
         </Router>

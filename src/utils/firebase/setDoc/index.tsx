@@ -50,22 +50,33 @@ export const Add: (params: IAddDocProps) => any = async ({ docRef, data }) => {
 
 export const useListen: (params: IListenProps) => any = ({ collectionRef }) => {
   const [docs, setDocs] = useState<any[] | null>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
-    if (!collectionRef) {
-      return;
-    } else {
-      onSnapshot(collectionRef, (snapshot: any) => {
-        // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-        setDocs(
-          snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
-        );
-        console.log(
-          "data: ",
-          snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
-        );
-      });
-    }
-  }, [collectionRef]);
+    const fetch = async () => {
+      if (!collectionRef) {
+        return;
+      } else {
+        onSnapshot(collectionRef, (snapshot: any) => {
+          // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+          setDocs(
+            snapshot.docs.map((doc: any) => ({
+              id: doc.id,
+              ...doc.data(),
+              doc,
+            }))
+          );
+          console.log(
+            "data: ",
+            snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
+          );
+          setLoading(false);
+        });
+      }
+    };
+
+    if (loading) fetch();
+  }, [collectionRef, loading]);
 
   return { docs };
 };

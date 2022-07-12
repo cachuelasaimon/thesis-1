@@ -18,6 +18,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { useErrorNotif, auth, useLogin } from "utils";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -28,6 +30,17 @@ export default function TemporaryDrawer() {
     bottom: false,
     right: false,
   });
+  const { checkState } = useLogin();
+  const showError = useErrorNotif();
+
+  const handleLogout = async () => {
+    try {
+      signOut(auth);
+      checkState();
+    } catch (err) {
+      showError(err);
+    }
+  };
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -99,12 +112,7 @@ export default function TemporaryDrawer() {
               component="div"
               sx={{ flexGrow: 1 }}
             ></Typography>
-            <Button
-              color="inherit"
-              onClick={() => {
-                window.setTimeout(() => navigate("/"), 1000);
-              }}
-            >
+            <Button color="inherit" onClick={handleLogout}>
               Logout
             </Button>
           </Toolbar>

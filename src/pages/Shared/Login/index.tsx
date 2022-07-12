@@ -1,61 +1,146 @@
-import React from "react";
+import React, { useEffect, useState, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Formik, Form, Field, FormikHelpers } from "formik";
+import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-mui";
 import * as Yup from "yup";
-import { Button, Grid } from "@mui/material";
+import {
+  Button,
+  Grid,
+  Box,
+  Typography,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { auth, useErrorNotif, useLogin } from "utils";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { AuthBase } from "components";
+
+import {
+  VisibilityOutlined as ShowIcon,
+  VisibilityOffOutlined as HideIcon,
+} from "@mui/icons-material";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const showError = useErrorNotif();
+  const { loggedIn, isLoading, checkState } = useLogin();
+
+  const [showPassword, setShowpassword] = useState<boolean>(false);
+
+  const handleChangeVisibility = () =>
+    setShowpassword((curr: boolean) => !curr);
+
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  useEffect(() => {
+    if (loggedIn && !isLoading) {
+      navigate("/home");
+    } else {
+      checkState();
+    }
+  }, [isLoading, loggedIn, navigate, checkState]);
 
   const handleSubmit = async (
-    values: any,
-    { resetForm }: FormikHelpers<any>
+    values: any
+    // { resetForm }: FormikHelpers<any>
   ) => {
-    await console.log(values);
-    window.setTimeout(() => resetForm(), 1500);
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      if (user) navigate("/home");
+      // window.setTimeout(() => resetForm(), 1500);
+    } catch (err: any) {
+      // console.log("error logs", err);
+      showError((err as any).message);
+    }
     navigate("/home");
   };
   return (
-    <>
-      <h1 style={{ textAlign: "center" }}>Login</h1>
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string()
-            .email("Must be a valid email")
-            .required("Required"),
-          password: Yup.string()
-            .min(8, "Minimum of 8 characters")
-            .required("Required"),
-        })}
-        onSubmit={handleSubmit}
+    <AuthBase>
+      <Box
+        display="flex"
+        minHeight="100vh"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
       >
-        {(props) => (
+        <Typography
+          color="textPrimary"
+          gutterBottom
+          variant="h4"
+          style={{ textAlign: "center" }}
+        >
+          Login
+        </Typography>
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={Yup.object().shape({
+            email: Yup.string()
+              .email("Must be a valid email")
+              .required("Required"),
+            password: Yup.string()
+              .min(8, "Minimum of 8 characters")
+              .required("Required"),
+          })}
+          onSubmit={handleSubmit}
+        >
           <Form>
-            <Grid container justifyContent="center" spacing={3}>
-              <Grid item container justifyContent="center" xs={12}>
-                {" "}
-                <Field name="email" label="Email" component={TextField} />
-              </Grid>
-              <Grid item container justifyContent="center" xs={12}>
+            {" "}
+            <Box display="flex" flexDirection="column">
+              <Box
+                sx={(theme) => ({
+                  marginTop: theme.spacing(2),
+                })}
+              >
                 <Field
+                  name="email"
+                  label="Email"
+                  component={TextField}
+                  fullWidth
+                  autoFocus
+                />
+              </Box>
+              <Box
+                sx={(theme) => ({
+                  marginTop: theme.spacing(2),
+                })}
+              >
+                <Field
+                  component={TextField}
+                  required
                   name="password"
                   label="Password"
-                  type="password"
-                  component={TextField}
+                  autoComplete="password"
+                  type={showPassword ? "text" : "password"}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleChangeVisibility}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <HideIcon /> : <ShowIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-              </Grid>
-              <Grid item container justifyContent="center" xs={12}>
-                <Button variant="contained" type="submit">
-                  Login
-                </Button>
-              </Grid>
-            </Grid>
+              </Box>
+
+              <Button variant="contained" type="submit">
+                Login
+              </Button>
+            </Box>
           </Form>
-        )}
-      </Formik>
-    </>
+        </Formik>
+      </Box>
+    </AuthBase>
   );
 };
 

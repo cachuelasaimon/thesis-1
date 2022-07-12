@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "cq-thesis",
+    "prod": "thc-merch"
+  },
+  "targets": {}
+}

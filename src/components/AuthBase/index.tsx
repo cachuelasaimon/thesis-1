@@ -4,17 +4,17 @@ import {
   Grid,
   useMediaQuery,
   Typography,
-  Theme,
+  Box,
   // Container,
   // Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
-import { makeStyles, createStyles, useTheme } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
 // import { deepOrange } from "@mui/material/colors";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Carousel from "react-material-ui-carousel";
-import { CarouselProps } from "types";
+// import { CarouselProps } from "types";
 // import ReDietLight from "assets/images/ReDiet-light.png";
 // import ReDietDark from "assets/images/ReDiet-dark.png";
 // import ReDietPlain from "assets/images/ReDiet-plain-2.png";
@@ -24,35 +24,65 @@ import { CarouselProps } from "types";
 // import BGImg4 from "assets/images/LoginBG-4.svg";
 const TestBG = require("./LoginBG-2.svg");
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      minHeight: "auto",
-      margin: "0",
-    },
-    logo: {
-      maxHeight: "3rem",
-      margin: "1rem 0 5rem 1.5rem",
-      marginBottom: "5rem",
-    },
-    logoMobile: {
-      maxHeight: "15rem",
-    },
-    carouselImage: {
-      maxHeight: "25rem",
-    },
-    paper: {
-      borderBottomRightRadius: "20px",
-      borderTopLeftRadius: "0px",
-      minHeight: "100vh",
-    },
-    carouseItem: {
-      minHeight: "30rem",
-      userSelect: "none",
-      padding: theme.spacing(3),
-    },
-  })
-);
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     root: {
+//       minHeight: "auto",
+//       margin: "0",
+//     },
+//     logo: {
+//       maxHeight: "3rem",
+//       margin: "1rem 0 5rem 1.5rem",
+//       marginBottom: "5rem",
+//     },
+//     logoMobile: {
+//       maxHeight: "15rem",
+//     },
+//     carouselImage: {
+//       maxHeight: "25rem",
+//     },
+//     paper: {
+//       borderBottomRightRadius: "20px",
+//       borderTopLeftRadius: "0px",
+//       minHeight: "100vh",
+//     },
+//     carouseItem: {
+//       minHeight: "30rem",
+//       userSelect: "none",
+//       // padding: theme.spacing(3),
+//     },
+//   })
+// );
+
+const styles: any = {
+  root: {
+    padding: "0",
+    minHeight: "auto",
+    margin: "0",
+    maxWidth: "100vw",
+  },
+  logo: {
+    maxHeight: "3rem",
+    margin: "1rem 0 5rem 1.5rem",
+    marginBottom: "5rem",
+  },
+  logoMobile: {
+    maxHeight: "15rem",
+  },
+  carouselImage: {
+    maxHeight: "25rem",
+  },
+  paper: {
+    borderBottomRightRadius: "20px",
+    borderTopLeftRadius: "0px",
+    minHeight: "100vh",
+  },
+  carouseItem: {
+    minHeight: "30rem",
+    userSelect: "none",
+    // padding: theme.spacing(3),
+  },
+};
 
 const CarouselItems = [
   { img: TestBG, text: "Text 1" },
@@ -77,8 +107,8 @@ const carouselSettings: any = {
   IndicatorIcon: <FiberManualRecordIcon style={{ fontSize: "0.8rem" }} />,
 };
 
-const Login: React.FC = () => {
-  const classes = useStyles();
+const Login: React.FC = (props: any) => {
+  console.log("prop logs", props);
   const theme = useTheme();
   // @ts-ignore
   const md = useMediaQuery(theme.breakpoints.down("lg"));
@@ -94,7 +124,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Grid className={classes.root} spacing={3} container>
+    <Grid style={styles.root} container>
       {/* may text na part */}
       <Grid
         item
@@ -103,136 +133,41 @@ const Login: React.FC = () => {
         lg={6}
         justifyContent={"center"}
         xs={12}
+        sx={{ padding: "0" }}
       >
         <Grid xs={12} item>
-          <Paper
-            sx={{ boxShadow: 0, borderRadius: 0 }}
-            className={classes.paper}
-          >
-            {!md && (
-              <React.Fragment>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <img
-                      className={classes.logo}
-                      // src={ReDietPlain}
-                      alt="rediet-logo"
-                    />
-                  </Grid>
-                  <Grid
-                    container
-                    sx={{ paddingLeft: "4rem" }}
-                    justifyContent="space-around"
-                    spacing={2}
-                  >
-                    <Grid item xs={12}>
-                      <Typography variant="h2">Welcome to ReDiet</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography>
-                        Dietary tips and Recipes for you to try!
-                      </Typography>
-                    </Grid>
-                  </Grid>
+          {!md && <Paper style={styles.paper}>{props.children}</Paper>}
 
-                  <Grid
-                    item
-                    xs={12}
-                    container
-                    justifyContent="center"
-                    alignItems=""
-                  >
-                    <LoadingButton
-                      sx={{
-                        // @ts-ignore
-                        color: theme.palette.getContrastText(
-                          // @ts-ignore
-                          theme.palette.google.main
-                        ),
-                      }}
-                      color="primary"
-                      onClick={handleClick}
-                      loading={loading}
-                      variant="contained"
-                    >
-                      Continue as Guest
-                    </LoadingButton>
-                  </Grid>
-                </Grid>
-              </React.Fragment>
-            )}
-
-            {md && (
-              <Grid
-                sx={{ minHeight: "auto" }}
-                item
-                container
-                justifyContent="space-between"
-                direction="column"
-                alignItems={"center"}
-              >
-                <Grid item container justifyContent="space-around" xs={12}>
-                  <img
-                    className={classes.logoMobile}
-                    src={
-                      // @ts-ignore
-                      theme.palette.mode === "dark" ? ReDietDark : ReDietLight
-                    }
-                    alt="rediet-logo"
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  container
-                  justifyContent="center"
-                  sx={{ marginBottom: "4rem" }}
-                >
-                  <LoadingButton
-                    sx={{
-                      marginTop: "3rem",
-                      // @ts-ignore
-                      color: theme.palette.getContrastText(
-                        // @ts-ignore
-                        theme.palette.google.main
-                      ),
-                    }}
-                    color="primary"
-                    onClick={handleClick}
-                    loading={loading}
-                    variant="contained"
-                  >
-                    Continue as Guest
-                  </LoadingButton>
-                </Grid>
-              </Grid>
-            )}
-          </Paper>
+          {md && <>{props.children}</>}
         </Grid>
       </Grid>
       {/* may image na part */}
       {!md && (
         <Grid
+          sx={{ padding: "0" }}
           item
           container
           lg={6}
           justifyContent="space-around"
           alignItems="center"
         >
-          {/* <img className={classes.logo} src={BGImg1} alt="rediet-logo" /> */}
+          {/* <img style={classes.logo} src={BGImg1} alt="rediet-logo" /> */}
 
           <Grid item xs={11}>
             <Carousel {...carouselSettings}>
-              {CarouselItems.map(({ text, img }) => (
-                <div className={classes.carouseItem}>
+              {CarouselItems.map(({ text, img }, index) => (
+                <div
+                  key={index}
+                  style={{ ...styles.carouseItem, padding: theme.spacing(3) }}
+                >
                   <Grid
-                    sx={{ marginBottom: "1rem" }}
+                    sx={(theme) => ({ marginBottom: theme.spacing(2) })}
                     container
                     justifyContent="center"
                   >
                     <img
                       draggable={false}
-                      className={classes.carouselImage}
+                      style={styles.carouselImage}
                       src={img}
                       alt="rediet-logo"
                     />
