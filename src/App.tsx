@@ -24,13 +24,22 @@ import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/700.css";
 
-import { Login, Home, Cart, SingleProduct, NotFound, SignUp } from "pages";
+import {
+  Login,
+  Home,
+  Cart,
+  SingleProduct,
+  NotFound,
+  SignUp,
+  ForgotPassword,
+} from "pages";
 
 const Pages: IPage[] = [
   { path: "/cart", Component: Cart, requireAuth: false },
   { path: "/home", Component: Home, requireAuth: true },
   { path: "/", Component: Login, requireAuth: false },
   { path: "/sign-up", Component: SignUp, requireAuth: false },
+  { path: "/forgot-password", Component: ForgotPassword, requireAuth: false },
   { path: "/test", Component: APITest, requireAuth: false },
   { path: "*", Component: NotFound, requireAuth: false },
   { path: "/product/:productId", Component: SingleProduct, requireAuth: true },

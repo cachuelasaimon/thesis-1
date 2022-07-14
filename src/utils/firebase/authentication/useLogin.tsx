@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useErrorNotif } from "utils";
 
-export const useLogin = () => {
+export const useLogin = (redirectTo?: string) => {
   const [loggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -22,7 +22,7 @@ export const useLogin = () => {
             setUser(user);
             setIsLoggedIn(true);
           } else {
-            navigate("/");
+            navigate(redirectTo || "/");
           }
         });
       } catch (err) {

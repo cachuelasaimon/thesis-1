@@ -29,7 +29,7 @@ export default function MediaCard({
   return (
     <Card
       onClick={() => navigate(`/product/${id}`)}
-      elevation={0}
+      elevation={1}
       sx={{
         cursor: "pointer",
         maxWidth: 345,
@@ -37,7 +37,10 @@ export default function MediaCard({
       }}
     >
       <CardMedia
-        sx={{ maxWidth: "100%", maxHeight: "100%", borderRadius: "5px" }}
+        sx={{
+          maxWidth: "100%",
+          maxHeight: "100%",
+        }}
         component="img"
         image={picture}
         alt="product-picture"

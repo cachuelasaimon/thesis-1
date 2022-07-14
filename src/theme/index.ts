@@ -1,5 +1,15 @@
 import { createTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
+import { Theme } from "@mui/material/styles";
+
+const commonProps = {
+  typography: {
+    fontFamily: ["Poppins", "sans-serif"].join(","),
+    button: {
+      fontFamily: ["Poppins", "sans-serif"].join(","),
+    },
+  },
+};
 
 const theme = {
   lightTheme: createTheme({
@@ -13,9 +23,7 @@ const theme = {
         main: grey[900],
       },
     },
-    typography: {
-      fontFamily: ["Poppins", "sans-serif"].join(","),
-    },
+    ...commonProps,
   }),
 
   darkTheme: createTheme({
@@ -26,9 +34,7 @@ const theme = {
       //   main: grey[200],
       // },
     },
-    typography: {
-      fontFamily: ["Poppins", "sans-serif"].join(","),
-    },
+    ...commonProps,
   }),
 };
 

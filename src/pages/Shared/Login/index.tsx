@@ -4,13 +4,14 @@ import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-mui";
 import * as Yup from "yup";
 import {
-  Button,
-  Grid,
   Box,
   Typography,
   InputAdornment,
   IconButton,
+  ButtonBase,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { useTheme } from "@mui/material/styles";
 import { auth, useErrorNotif, useLogin } from "utils";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { AuthBase } from "components";
@@ -24,6 +25,8 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const showError = useErrorNotif();
   const { loggedIn, isLoading, checkState } = useLogin();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const theme = useTheme();
 
   const [showPassword, setShowpassword] = useState<boolean>(false);
 
@@ -47,6 +50,7 @@ const LoginPage: React.FC = () => {
     // { resetForm }: FormikHelpers<any>
   ) => {
     try {
+      setIsSubmitting(true);
       const user = await signInWithEmailAndPassword(
         auth,
         values.email,
@@ -57,11 +61,19 @@ const LoginPage: React.FC = () => {
     } catch (err: any) {
       // console.log("error logs", err);
       showError((err as any).message);
+    } finally {
+      setIsSubmitting(false);
     }
     navigate("/home");
   };
   return (
-    <AuthBase>
+    <AuthBase
+      carouselItems={[
+        {
+          img: "assets/images/Login.svg",
+        },
+      ]}
+    >
       <Box
         display="flex"
         minHeight="100vh"
@@ -93,9 +105,9 @@ const LoginPage: React.FC = () => {
             {" "}
             <Box display="flex" flexDirection="column">
               <Box
-                sx={(theme) => ({
+                sx={{
                   marginTop: theme.spacing(2),
-                })}
+                }}
               >
                 <Field
                   name="email"
@@ -106,9 +118,9 @@ const LoginPage: React.FC = () => {
                 />
               </Box>
               <Box
-                sx={(theme) => ({
+                sx={{
                   marginTop: theme.spacing(2),
-                })}
+                }}
               >
                 <Field
                   component={TextField}
@@ -133,9 +145,40 @@ const LoginPage: React.FC = () => {
                 />
               </Box>
 
-              <Button variant="contained" type="submit">
+              <Box mt={1}>
+                <ButtonBase
+                  sx={{
+                    ...theme.typography.caption,
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => navigate("/forgot-password")}
+                >
+                  Forgot Password
+                </ButtonBase>
+              </Box>
+
+              <LoadingButton
+                loading={isSubmitting}
+                style={{ marginTop: theme.spacing() }}
+                variant="contained"
+                type="submit"
+              >
                 Login
-              </Button>
+              </LoadingButton>
+              <Box mt={1}>
+                <Typography variant="caption">
+                  Don't have an account?{" "}
+                  <ButtonBase
+                    sx={{
+                      ...theme.typography.caption,
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => navigate("/sign-up")}
+                  >
+                    Create an acccount
+                  </ButtonBase>
+                </Typography>
+              </Box>
             </Box>
           </Form>
         </Formik>

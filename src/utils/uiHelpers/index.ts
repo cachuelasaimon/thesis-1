@@ -4,6 +4,10 @@ export const useErrorNotif = () => {
   const firebaseErrors = [
     { firebaseErr: "auth/wrong-password", message: "Wrong Password" },
     { firebaseErr: "auth/user-not-found", message: "User not found" },
+    {
+      firebaseErr: "auth/email-already-in-use",
+      message: "Email is already in use",
+    },
   ];
   const { enqueueSnackbar } = useSnackbar();
   const renderError = (err?: any) => {
@@ -17,10 +21,27 @@ export const useErrorNotif = () => {
 
       enqueueSnackbar(message, { variant: "error" });
     } else {
-      enqueueSnackbar("Something went wrong", { variant: "error" });
+      enqueueSnackbar(typeof err === "string" ? err : "Something went wrong", {
+        variant: "error",
+      });
     }
   };
   return renderError;
+};
+
+export const useQuickNotif = () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const renderNotif = (
+    message: string,
+    variant?: "success" | "warning" | "error",
+    duration?: number
+  ) => {
+    enqueueSnackbar(message, {
+      variant: variant || "warning",
+    });
+    window.setTimeout(() => closeSnackbar, duration || 1500);
+  };
+  return renderNotif;
 };
 
 export const altImageName: (imgName: string) => string = (imgName) =>

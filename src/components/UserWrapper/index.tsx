@@ -30,7 +30,7 @@ export default function TemporaryDrawer() {
     bottom: false,
     right: false,
   });
-  const { checkState } = useLogin();
+  const { checkState } = useLogin("/");
   const showError = useErrorNotif();
 
   const handleLogout = async () => {

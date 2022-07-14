@@ -9,7 +9,6 @@ import {
   // Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { LoadingButton } from "@mui/lab";
 import { useTheme } from "@mui/material/styles";
 // import { deepOrange } from "@mui/material/colors";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -22,7 +21,6 @@ import Carousel from "react-material-ui-carousel";
 // import BGImg2 from "assets/images/LoginBG-2.svg";
 // import BGImg3 from "assets/images/LoginBG-3.svg";
 // import BGImg4 from "assets/images/LoginBG-4.svg";
-const TestBG = require("./LoginBG-2.svg");
 
 // const useStyles = makeStyles((theme: Theme) =>
 //   createStyles({
@@ -53,6 +51,23 @@ const TestBG = require("./LoginBG-2.svg");
 //     },
 //   })
 // );
+interface ICarouselItem {
+  /**
+   * @param img - contains the link of the carousel image, file should be in the public/assets/images
+   */
+  img: string;
+  /**
+   * @param text - caption below the carousel image
+   */
+  text?: string;
+}
+
+interface IAuthBaseProps {
+  /**
+   * @param carouselItems - Custom Carousel Items
+   */
+  carouselItems?: ICarouselItem[];
+}
 
 const styles: any = {
   root: {
@@ -84,14 +99,8 @@ const styles: any = {
   },
 };
 
-const CarouselItems = [
-  { img: TestBG, text: "Text 1" },
-  { img: TestBG, text: "Text 2" },
-  {
-    img: TestBG,
-    text: "Text ",
-  },
-  { img: TestBG, text: "Text 3" },
+const defaultCarouselItems: ICarouselItem[] = [
+  { img: "assets/images/Password.svg" },
 ];
 
 const carouselSettings: any = {
@@ -107,8 +116,7 @@ const carouselSettings: any = {
   IndicatorIcon: <FiberManualRecordIcon style={{ fontSize: "0.8rem" }} />,
 };
 
-const Login: React.FC = (props: any) => {
-  console.log("prop logs", props);
+const AuthBase: React.FC<IAuthBaseProps> = ({ children, carouselItems }) => {
   const theme = useTheme();
   // @ts-ignore
   const md = useMediaQuery(theme.breakpoints.down("lg"));
@@ -136,9 +144,9 @@ const Login: React.FC = (props: any) => {
         sx={{ padding: "0" }}
       >
         <Grid xs={12} item>
-          {!md && <Paper style={styles.paper}>{props.children}</Paper>}
+          {!md && <Paper style={styles.paper}>{children}</Paper>}
 
-          {md && <>{props.children}</>}
+          {md && <Paper style={styles.paper}>{children}</Paper>}
         </Grid>
       </Grid>
       {/* may image na part */}
@@ -155,28 +163,36 @@ const Login: React.FC = (props: any) => {
 
           <Grid item xs={11}>
             <Carousel {...carouselSettings}>
-              {CarouselItems.map(({ text, img }, index) => (
-                <div
-                  key={index}
-                  style={{ ...styles.carouseItem, padding: theme.spacing(3) }}
-                >
-                  <Grid
-                    sx={(theme) => ({ marginBottom: theme.spacing(2) })}
-                    container
-                    justifyContent="center"
+              {(carouselItems || defaultCarouselItems).map(
+                ({ text, img }, index) => (
+                  <div
+                    key={index}
+                    style={{ ...styles.carouseItem, padding: theme.spacing(3) }}
                   >
-                    <img
-                      draggable={false}
-                      style={styles.carouselImage}
-                      src={img}
-                      alt="rediet-logo"
-                    />
-                  </Grid>
-                  <Typography align="center" variant="h5" color="textPrimary">
-                    {text}
-                  </Typography>
-                </div>
-              ))}
+                    <Grid
+                      sx={(theme) => ({ marginBottom: theme.spacing(2) })}
+                      container
+                      justifyContent="center"
+                    >
+                      <img
+                        draggable={false}
+                        style={styles.carouselImage}
+                        src={img}
+                        alt="rediet-logo"
+                      />
+                    </Grid>
+                    {text && (
+                      <Typography
+                        align="center"
+                        variant="h5"
+                        color="textPrimary"
+                      >
+                        {text}
+                      </Typography>
+                    )}
+                  </div>
+                )
+              )}
             </Carousel>
           </Grid>
         </Grid>
@@ -185,4 +201,4 @@ const Login: React.FC = (props: any) => {
   );
 };
 
-export default Login;
+export default AuthBase;
