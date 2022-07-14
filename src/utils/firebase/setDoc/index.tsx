@@ -66,10 +66,10 @@ export const useListen: (params: IListenProps) => any = ({ collectionRef }) => {
               doc,
             }))
           );
-          console.log(
-            "data: ",
-            snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
-          );
+          // console.log(
+          //   "data: ",
+          //   snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
+          // );
           setLoading(false);
         });
       }

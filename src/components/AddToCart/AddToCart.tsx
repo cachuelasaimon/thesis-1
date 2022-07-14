@@ -10,25 +10,36 @@ import {
   IconButton,
   InputBase,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { Add, Remove } from "@mui/icons-material";
 import { useSnackbar } from "notistack";
 import { IProduct } from "types";
+import { collections, Set, database } from "utils";
+import { doc } from "firebase/firestore";
 
 interface IAddToCartProps {
   product: IProduct;
   open: boolean;
   onClose: () => void;
+  userId: string;
 }
 
-const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product }) => {
+const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product, userId }) => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
   const { name } = product;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const handleAddToCart = () => {
-    enqueueSnackbar("Item added to cart", { variant: "success" });
-    window.setTimeout(() => closeSnackbar(), 1500);
-    window.clearTimeout();
-    onClose();
+  const handleAddToCart = async (values: any) => {
+    try {
+      setIsSubmitting(true);
+      await Set({
+        docRef: doc(database, `${collections.carts.string}/${userId}/items`),
+        data: {},
+      });
+    } catch (err) {
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   const handleCancel = () => onClose();
 
@@ -81,14 +92,19 @@ const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product }) => {
       <DialogActions>
         <Box display="flex">
           <Button
+            disabled={isSubmitting}
             onClick={handleCancel}
             sx={(theme) => ({ marginRight: theme.spacing(2) })}
           >
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleAddToCart}>
+          <LoadingButton
+            loading={isSubmitting}
+            variant="contained"
+            onClick={handleAddToCart}
+          >
             Add to cart
-          </Button>
+          </LoadingButton>
         </Box>
       </DialogActions>
     </Dialog>

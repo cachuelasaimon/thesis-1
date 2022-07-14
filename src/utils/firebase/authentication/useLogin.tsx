@@ -7,7 +7,7 @@ import { useErrorNotif } from "utils";
 export const useLogin = (redirectTo?: string) => {
   const [loggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const showError = useErrorNotif();
   const navigate = useNavigate();
 

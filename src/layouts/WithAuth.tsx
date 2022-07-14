@@ -1,10 +1,14 @@
 import { FC, useEffect } from "react";
 import { useLogin } from "utils";
 
-export const WithAuth: FC = ({ children }) => {
-  const { checkState, isLoading } = useLogin();
+interface IWithAuthProps {
+  Component: any;
+}
+
+export const WithAuth: FC<IWithAuthProps> = ({ Component }) => {
+  const { checkState, isLoading, user } = useLogin();
 
   useEffect(() => checkState(), []);
 
-  return <>{!isLoading && children}</>;
+  return <>{!isLoading && <Component user={user} />}</>;
 };

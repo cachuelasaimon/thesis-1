@@ -35,7 +35,7 @@ import {
 } from "pages";
 
 const Pages: IPage[] = [
-  { path: "/cart", Component: Cart, requireAuth: false },
+  { path: "/cart", Component: Cart, requireAuth: true },
   { path: "/home", Component: Home, requireAuth: true },
   { path: "/", Component: Login, requireAuth: false },
   { path: "/sign-up", Component: SignUp, requireAuth: false },
@@ -45,19 +45,19 @@ const Pages: IPage[] = [
   { path: "/product/:productId", Component: SingleProduct, requireAuth: true },
 ];
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    background: (props: any) => props.palette.background.default,
-  },
-}));
+// const useStyles = makeStyles((theme: Theme) => ({
+//   root: {
+//     background: (props: any) => props.palette.background.default,
+//   },
+// }));
 
 function App() {
   const [theme] = useState(CustomTheme.darkTheme);
-  const classes = useStyles(theme as Theme);
+  // const classes = useStyles(theme as Theme);
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
+      <div style={{background: theme.palette.background.default}}>
         <Router>
           <Routes>
             {Pages.map(({ path, Component, requireAuth }) => (
@@ -66,7 +66,7 @@ function App() {
                 path={path}
                 element={
                   requireAuth ? (
-                    <WithAuth>{<Component />}</WithAuth>
+                    <WithAuth Component={Component} />
                   ) : (
                     <Component />
                   )

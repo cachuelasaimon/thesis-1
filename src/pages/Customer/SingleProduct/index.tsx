@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import React, { useState, FC } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // MUI
@@ -14,11 +14,21 @@ import {
 // Custom
 import { UserWrapper, ProductViewer, AddToCart, Reviews } from "components";
 import { collection } from "firebase/firestore";
-import { useListen, collections, database, formatCurrency } from "utils";
+import {
+  useListen,
+  collections,
+  database,
+  formatCurrency,
+  useLogin,
+} from "utils";
 import { IProduct, IReview } from "types";
 // ! Transfer to another file
 
 const SingleProduct: FC = () => {
+  const { user: userCreds } = useLogin();
+  const userId = userCreds?.uid || "";
+  console.log("userId", userId);
+
   const [openAddToCart, setOpenAddToCart] = useState<boolean>(false);
   const handleOpenAddToCart = () => setOpenAddToCart(true);
   const handleCloseAddToCart = () => setOpenAddToCart(false);
@@ -136,7 +146,6 @@ const SingleProduct: FC = () => {
                   onClick={handleOpenAddToCart}
                   sx={(theme) => ({
                     padding: `${theme.spacing(2)} 0`,
-                    borderRadius: "25px",
                   })}
                   fullWidth
                   variant="contained"
@@ -167,8 +176,9 @@ const SingleProduct: FC = () => {
           </Grid>
         )}
         {/* Modal(s) */}
-        {product && (
+        {userId && product && (
           <AddToCart
+            userId={userId}
             product={product}
             onClose={handleCloseAddToCart}
             open={openAddToCart}

@@ -1,41 +1,39 @@
 import React from "react";
 import { UserWrapper, Cart } from "components";
-import { Box, Grid, Paper } from "@mui/material";
-import { collections, useListen } from "utils";
+import { Box, Grid, Paper, Typography } from "@mui/material";
+import { collections, useListen, useLogin } from "utils";
 import { IUser } from "types";
 
 const CartPage: React.FC = () => {
+  // ? test
+  const { user: userCreds } = useLogin();
+
+  // React.useEffect(() => {
+  //   const check = async () => await checkState();
+  //   check();
+  // }, []);
   // ! Replace with logged in user ID
-  const userId = "K3z4QCFHC3iSjCEMUYjZ";
-  const { docs: userList } = useListen({
-    collectionRef: collections.users.ref,
-  });
-  const users: IUser[] = userList || null;
-  const user: IUser | null =
-    users?.find((user: IUser) => user.id === userId) || null;
-  const userNotFound = !user;
-
-  const cartId = user?.cartId || "";
-
-  if (userNotFound) return <>User Not Found</>;
+  const userId = userCreds?.uid || "";
 
   return (
     <div style={{ overflowX: "hidden" }}>
-      <UserWrapper />
-      <Grid sx={{ minHeight: "100vh" }} container>
-        {cartId && (
-          <Box
-            width="100%"
-            my={3}
-            sx={(theme) => ({
-              paddingBottom: theme.spacing(3),
-            })}
-          >
-            {/* <Paper>Test</Paper> */}
-            <Cart cartId={cartId} />
-          </Box>
-        )}
-      </Grid>
+      {userId !== "" && (
+        <>
+          <UserWrapper />
+          <Grid sx={{ minHeight: "100vh" }} container>
+            <Box
+              width="100%"
+              my={3}
+              sx={(theme) => ({
+                paddingBottom: theme.spacing(3),
+              })}
+            >
+              {/* <Paper>Test</Paper> */}
+              <Cart cartId={userId} />
+            </Box>
+          </Grid>
+        </>
+      )}
     </div>
   );
 };

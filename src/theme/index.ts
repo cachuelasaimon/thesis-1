@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { grey } from "@mui/material/colors";
+import { grey, blueGrey } from "@mui/material/colors";
 import { Theme } from "@mui/material/styles";
 
 const commonProps = {
@@ -15,12 +15,8 @@ const theme = {
   lightTheme: createTheme({
     palette: {
       mode: "light",
-      // background: {
-      //   default: grey[200],
-      // },
-      // @ts-ignore
-      google: {
-        main: grey[900],
+      background: {
+        default: blueGrey["900"],
       },
     },
     ...commonProps,
@@ -29,10 +25,6 @@ const theme = {
   darkTheme: createTheme({
     palette: {
       mode: "dark",
-      // @ts-ignore
-      // google: {
-      //   main: grey[200],
-      // },
     },
     ...commonProps,
   }),
