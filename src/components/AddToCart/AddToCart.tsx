@@ -12,10 +12,10 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { Add, Remove } from "@mui/icons-material";
-import { useSnackbar } from "notistack";
 import { IProduct } from "types";
-import { collections, Set, database } from "utils";
+import { collections, Set, database, useQuickNotif } from "utils";
 import { doc } from "firebase/firestore";
+import { INewCartItem } from "types";
 
 interface IAddToCartProps {
   product: IProduct;
@@ -28,14 +28,18 @@ const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product, userId }) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
   const { name } = product;
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const handleAddToCart = async (values: any) => {
+  const notification = useQuickNotif();
+
+  const handleAddToCart = async () => {
     try {
-      setIsSubmitting(true);
-      await Set({
-        docRef: doc(database, `${collections.carts.string}/${userId}/items`),
-        data: {},
-      });
+      if (quantity && !isSubmitting) {
+        setIsSubmitting(true);
+        await Set<INewCartItem>({
+          docRef: doc(database, `${collections.carts.string}/${userId}/items`),
+          data: { productId: product.id, quantity },
+        });
+        notification("Item added to cart", "success");
+      }
     } catch (err) {
     } finally {
       setIsSubmitting(false);

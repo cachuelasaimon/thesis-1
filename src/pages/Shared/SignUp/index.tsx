@@ -25,6 +25,7 @@ import {
   VisibilityOutlined as ShowIcon,
   VisibilityOffOutlined as HideIcon,
 } from "@mui/icons-material";
+import { INewUser } from "types/INewIUser";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -78,17 +79,18 @@ const SignUpPage: React.FC = () => {
         values.password
       );
       if (userCredential.user) {
-        const { uid, displayName, email } = userCredential.user;
+        const { uid, displayName } = userCredential.user;
         const userRef = doc(database, collections.users.string + "/" + uid);
         const user = await getDoc(userRef);
         if (!user.exists()) {
           // Create a new firestore user if user doesn't exist yet
-          await Set({
+          await Set<INewUser>({
             docRef: userRef,
             data: {
+              id: uid,
               contactNo: "",
               displayName: displayName || "New User",
-              email,
+              email: values.email,
               roles: ["customer"],
             },
           });

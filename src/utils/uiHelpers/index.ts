@@ -29,20 +29,7 @@ export const useErrorNotif = () => {
   return renderError;
 };
 
-export const useQuickNotif = () => {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const renderNotif = (
-    message: string,
-    variant?: "success" | "warning" | "error",
-    duration?: number
-  ) => {
-    enqueueSnackbar(message, {
-      variant: variant || "warning",
-    });
-    window.setTimeout(() => closeSnackbar, duration || 1500);
-  };
-  return renderNotif;
-};
+export { default as useQuickNotif } from "./useQuickNotif";
 
 export const altImageName: (imgName: string) => string = (imgName) =>
   imgName.toLowerCase().split(" ").join("-");

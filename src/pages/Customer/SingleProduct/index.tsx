@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import { useState, FC } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // MUI
@@ -27,7 +27,6 @@ import { IProduct, IReview } from "types";
 const SingleProduct: FC = () => {
   const { user: userCreds } = useLogin();
   const userId = userCreds?.uid || "";
-  console.log("userId", userId);
 
   const [openAddToCart, setOpenAddToCart] = useState<boolean>(false);
   const handleOpenAddToCart = () => setOpenAddToCart(true);
@@ -165,7 +164,7 @@ const SingleProduct: FC = () => {
 
               {/* Reviews */}
               {noReviews ? (
-                <>Be the first one to have create a review</>
+                <>Be the first one to create a review</>
               ) : (
                 <Box my={3} width="100%" padding="0">
                   {" "}

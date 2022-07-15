@@ -20,6 +20,7 @@ const ProductViewer: FC<IProductViewerProps> = ({ picture, productName }) => {
         }}
       >
         <img
+          draggable={false}
           style={{
             maxWidth: "100%",
             maxHeight: "100%",

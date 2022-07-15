@@ -9,14 +9,14 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-export interface ISetDocProps {
+export interface ISetDocProps<T> {
   docRef: any;
-  data: any;
+  data: T;
 }
 
-export interface IAddDocProps {
+export interface IAddDocProps<T> {
   docRef: any;
-  data: any;
+  data: T;
 }
 
 export interface IListenProps {
@@ -36,11 +36,22 @@ export interface ICollectionWithQueryProps {
   };
 }
 
-export const Set: (params: ISetDocProps) => any = async ({ docRef, data }) => {
-  await setDoc(docRef, data);
+export const Set: <T>(params: ISetDocProps<T>) => any = async ({
+  docRef,
+  data,
+}) => {
+  try {
+    console.log(data);
+    await setDoc(docRef, data);
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const Add: (params: IAddDocProps) => any = async ({ docRef, data }) => {
+export const Add: <T>(params: IAddDocProps<T>) => any = async ({
+  docRef,
+  data,
+}) => {
   try {
     await addDoc(docRef, data);
   } catch (err) {

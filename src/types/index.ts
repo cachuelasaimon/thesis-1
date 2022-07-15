@@ -5,3 +5,5 @@ export * from "./IUser";
 export * from "./IItem";
 export * from "./ICart";
 export * from "./IPage";
+export * from "./INewIUser";
+export * from "./INewCartItem";

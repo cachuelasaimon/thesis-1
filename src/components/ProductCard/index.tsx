@@ -38,17 +38,11 @@ export default function MediaCard({
     >
       <CardMedia
         sx={{
-          "-moz-user-select":
-            "none" /* These user-select properties are inheritable, used to prevent text selection */,
-          "-webkit-user-select": "none",
-          "-ms-user-select": "none",
-          pointerEvents: "none",
-          userDrag: "none",
-          userSelect: "none",
           maxWidth: "100%",
           maxHeight: "100%",
         }}
         component="img"
+        draggable={false}
         image={picture}
         alt="product-picture"
       />

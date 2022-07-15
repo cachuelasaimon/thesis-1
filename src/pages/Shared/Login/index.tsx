@@ -70,7 +70,7 @@ const LoginPage: React.FC = () => {
     <AuthBase
       carouselItems={[
         {
-          img: "assets/images/Login.svg",
+          img: "assets/images/Login.png",
         },
       ]}
     >
