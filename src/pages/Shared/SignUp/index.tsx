@@ -113,7 +113,9 @@ const SignUpPage: React.FC = () => {
   };
   return (
     <AuthBase
-      carouselItems={[{ img: "assets/images/Login.png", text: "Join us" }]}
+      carouselItems={[
+        { img: "assets/images/Login.png", text: "POTENTIAL OVER CREDENTIAL" },
+      ]}
     >
       <Box
         display="flex"
