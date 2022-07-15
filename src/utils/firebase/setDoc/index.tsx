@@ -41,7 +41,7 @@ export const Set: <T>(params: ISetDocProps<T>) => any = async ({
   data,
 }) => {
   try {
-    console.log(data);
+    console.log("set doc logs", data);
     await setDoc(docRef, data);
   } catch (err) {
     throw err;

@@ -71,7 +71,6 @@ const LoginPage: React.FC = () => {
       carouselItems={[
         {
           img: "assets/images/Login.png",
-          text: "POTENTIAL OVER CREDENTIAL",
         },
       ]}
     >
