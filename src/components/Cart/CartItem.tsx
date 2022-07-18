@@ -12,7 +12,7 @@ import { useTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import { formatCurrency, collections, database } from "utils";
 import { runTransaction, doc } from "firebase/firestore";
-import { ICartItemProps, IProduct } from "types";
+import { ICartItemProps } from "types";
 // import { altImageName } from "utils";
 
 const CartItem: React.FC<ICartItemProps> = ({
@@ -39,7 +39,7 @@ const CartItem: React.FC<ICartItemProps> = ({
             collections.carts.string + "/" + cartId + "/items/" + id
           )
         );
-
+        // checks if the document exists, if not then throw error: prevents duping exploits from race conditions
         if (!srcDoc.exists()) {
           throw new Error("Transaction failed, Document doesn't exists");
         }
@@ -50,6 +50,19 @@ const CartItem: React.FC<ICartItemProps> = ({
             collections.carts.string + "/" + cartId + "/items/" + id
           ),
           { quantity: value }
+        );
+
+        // Set local state after transaction succeds
+        setSelectedItems((items) =>
+          items.some((item: any) => item.id === id)
+            ? [
+                ...items.filter((item: any) => item.id !== id),
+                {
+                  ...items.find((item: any) => item.id === id),
+                  quantity: value,
+                },
+              ]
+            : items
         );
       });
     } catch (err) {
