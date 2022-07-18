@@ -44,6 +44,7 @@ const CartItem: React.FC<ICartItemProps> = ({
           throw new Error("Transaction failed, Document doesn't exists");
         }
 
+        // Updates the document after sanity check
         transaction.update(
           doc(
             database,
@@ -52,7 +53,7 @@ const CartItem: React.FC<ICartItemProps> = ({
           { quantity: value }
         );
 
-        // Set local state after transaction succeds
+        // Set local state after transaction succeeds
         setSelectedItems((items) =>
           items.some((item: any) => item.id === id)
             ? [
