@@ -12,7 +12,8 @@ export const auth = getAuth(firebaseApp);
 export * from "./collections/index";
 
 // ? firestore functions
-export * from "./setDoc";
+export * from "./firestore";
+export { default as createSimpleTransaction } from "./transaction";
 
 // ? authentication functions
 export * from "./authentication";

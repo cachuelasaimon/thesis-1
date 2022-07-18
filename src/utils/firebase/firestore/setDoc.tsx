@@ -1,13 +1,13 @@
 import {
   addDoc,
   setDoc,
-  onSnapshot,
+  // onSnapshot,
   getDoc,
   // query,
   // where,
   WhereFilterOp,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 export interface ISetDocProps<T> {
   docRef: any;
@@ -15,12 +15,8 @@ export interface ISetDocProps<T> {
 }
 
 export interface IAddDocProps<T> {
-  docRef: any;
-  data: T;
-}
-
-export interface IListenProps {
   collectionRef: any;
+  data: T;
 }
 
 export interface IGetOneDocumentProps {
@@ -49,47 +45,14 @@ export const Set: <T>(params: ISetDocProps<T>) => any = async ({
 };
 
 export const Add: <T>(params: IAddDocProps<T>) => any = async ({
-  docRef,
+  collectionRef,
   data,
 }) => {
   try {
-    await addDoc(docRef, data);
+    await addDoc(collectionRef, data);
   } catch (err) {
     throw err;
   }
-};
-
-export const useListen: (params: IListenProps) => any = ({ collectionRef }) => {
-  const [docs, setDocs] = useState<any[] | null>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetch = async () => {
-      if (!collectionRef) {
-        return;
-      } else {
-        onSnapshot(collectionRef, (snapshot: any) => {
-          // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-          setDocs(
-            snapshot.docs.map((doc: any) => ({
-              id: doc.id,
-              ...doc.data(),
-              doc,
-            }))
-          );
-          // console.log(
-          //   "data: ",
-          //   snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
-          // );
-          setLoading(false);
-        });
-      }
-    };
-
-    if (loading) fetch();
-  }, [collectionRef, loading]);
-
-  return { docs };
 };
 
 export const getCollectionWithQuery: (

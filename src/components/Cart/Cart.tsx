@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { collection } from "firebase/firestore";
-import { database, collections, useListen } from "utils";
+import {
+  database,
+  collections,
+  useListen,
+  useErrorNotif,
+  createSimpleTransaction,
+} from "utils";
 import { IItem, IProduct } from "types";
 import CartItem from "./CartItem";
 import {
@@ -13,25 +19,51 @@ import {
   Button,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import Checkout from "./Checkout";
 
 interface ICartProps {
   cartId: string;
 }
 
 const Cart: React.FC<ICartProps> = ({ cartId }) => {
+  const [selectedItems, setSelectedItems] = useState<IProduct[] | null>([]);
+  const showError = useErrorNotif();
   const theme = useTheme();
-  const { docs: itemList } = useListen({
+  const { docs: itemList } = useListen<IItem>({
     collectionRef: collection(
       database,
       `${collections.carts.string}/${cartId}/items`
     ),
   });
-  const items: IItem[] = itemList || [];
+  const items = itemList || [];
 
-  const { docs: productList } = useListen({
+  const { docs: productList } = useListen<IProduct>({
     collectionRef: collections.products.ref,
   });
-  const products: IProduct[] = productList || null;
+  const products = productList || null;
+
+  const handleCheckout = async () => {
+    try {
+      if (itemList !== null) {
+        await createSimpleTransaction(
+          itemList.map((item: any) => ({
+            read: {
+              ref: `${collections.carts.string}/${cartId}/items/${item.id}`,
+              properties: ["productId", "quantity"],
+            },
+            write: {
+              ref: `${collections.orders.string}/${cartId}/items/${item.id}`,
+              initialProps: { createdAt: new Date() },
+              properties: ["productId", "quantity"],
+            },
+          }))
+        );
+      }
+    } catch (err) {
+      showError();
+    }
+  };
+  console.log("selected items", selectedItems);
 
   return (
     <>
@@ -55,37 +87,41 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
                         ),
                         ...item,
                       }))
-                      .map(({ picture, quantity, name, id }) => (
-                        <Grid key={name || "" + id} item xs={12}>
-                          <CartItem
-                            picture={picture}
-                            quantity={quantity}
-                            name={name}
-                            key={id}
-                          />
-                        </Grid>
-                      ))}
+                      .map(
+                        ({
+                          id,
+                          name,
+                          ...rest
+                        }: Partial<IProduct> &
+                          Partial<IItem> & { id: string }) => (
+                          <Grid key={name || "" + id} item xs={12}>
+                            <CartItem
+                              cartId={cartId}
+                              isSelected={Boolean(
+                                selectedItems?.some((item) => item.id === id)
+                              )}
+                              id={id}
+                              setSelectedItems={setSelectedItems}
+                              {...rest}
+                              name={name}
+                              key={id}
+                            />
+                          </Grid>
+                        )
+                      )}
                   </Grid>
                 </Paper>
               </Grid>
               {/* Checkout Section*/}
-              <Grid item md={4}>
-                <Paper sx={{ padding: theme.spacing(2) }}>
-                  <Typography variant="h6">Proceed to Checkout</Typography>
-                  <Button
-                    fullWidth={true}
-                    variant="contained"
-                    sx={{ borderRadius: "5px" }}
-                  >
-                    Checkout
-                  </Button>
-                </Paper>
-              </Grid>
+              <Checkout
+                selectedItems={selectedItems}
+                handleCheckout={handleCheckout}
+              />
             </Grid>
           ) : (
             <Box display="flex" justifyContent="center" flexDirection="column">
               <img
-                alt="empty-cart-picture"
+                alt="empty-cart"
                 src="/assets/images/EmptyCart.svg"
                 style={{ maxHeight: "20rem", marginTop: theme.spacing(5) }}
               />
@@ -136,7 +172,7 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
             flexDirection="column"
           >
             <img
-              alt="empty-cart-picture"
+              alt="empty-cart"
               src="/assets/images/EmptyCart.svg"
               style={{ maxHeight: "10rem", marginTop: theme.spacing(5) }}
             />

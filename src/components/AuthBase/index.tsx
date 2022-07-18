@@ -4,7 +4,6 @@ import {
   Grid,
   useMediaQuery,
   Typography,
-  Box,
   // Container,
   // Button,
 } from "@mui/material";
@@ -120,16 +119,16 @@ const AuthBase: React.FC<IAuthBaseProps> = ({ children, carouselItems }) => {
   const theme = useTheme();
   // @ts-ignore
   const md = useMediaQuery(theme.breakpoints.down("lg"));
-  const [loading, setLoading] = React.useState(false);
+  // const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    setLoading(true);
-    window.setTimeout(() => {
-      setLoading(false);
-      navigate("/home");
-    }, 2000);
-  };
+  // const handleClick = () => {
+  //   setLoading(true);
+  //   window.setTimeout(() => {
+  //     setLoading(false);
+  //     navigate("/home");
+  //   }, 2000);
+  // };
 
   return (
     <Grid style={styles.root} container>

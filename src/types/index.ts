@@ -7,3 +7,6 @@ export * from "./ICart";
 export * from "./IPage";
 export * from "./INewIUser";
 export * from "./INewCartItem";
+
+// Page Props
+export * from "./pageInterfaces";

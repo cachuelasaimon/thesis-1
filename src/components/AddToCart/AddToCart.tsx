@@ -11,10 +11,10 @@ import {
   InputBase,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { Add, Remove } from "@mui/icons-material";
+import { Add as Plus, Remove } from "@mui/icons-material";
 import { IProduct } from "types";
-import { collections, Set, database, useQuickNotif } from "utils";
-import { doc } from "firebase/firestore";
+import { collections, Add, database, useQuickNotif } from "utils";
+import { collection } from "firebase/firestore";
 import { INewCartItem } from "types";
 
 interface IAddToCartProps {
@@ -32,13 +32,22 @@ const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product, userId }) => {
 
   const handleAddToCart = async () => {
     try {
-      if (quantity && !isSubmitting) {
+      if (!isSubmitting) {
         setIsSubmitting(true);
-        await Set<INewCartItem>({
-          docRef: doc(database, `${collections.carts.string}/${userId}/items`),
-          data: { productId: product.id, quantity },
+        await Add<INewCartItem>({
+          collectionRef: collection(
+            database,
+            `${collections.carts.string}/${userId}/items`
+          ),
+          data: {
+            productId: product.id,
+            quantity,
+            show: true,
+            status: "active",
+          },
         });
         notification("Item added to cart", "success");
+        onClose();
       }
     } catch (err) {
     } finally {
@@ -88,7 +97,7 @@ const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product, userId }) => {
           <IconButton
             onClick={() => setQuantity((q) => (q < product.stocks ? ++q : q))}
           >
-            <Add />
+            <Plus />
           </IconButton>
         </Box>
       </DialogContent>
