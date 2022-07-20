@@ -17,6 +17,7 @@ import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import { IAddress, StepProps, addressValidation, NewItem } from "types";
 import { useListen, useLogin, collections, Add, Set } from "utils";
+import { isEditable } from "@testing-library/user-event/dist/utils";
 
 const Address: FC<StepProps> = ({ setStep, step }) => {
   const [editable, setEditable] = useState<boolean[]>([false]);
@@ -47,7 +48,7 @@ const Address: FC<StepProps> = ({ setStep, step }) => {
 
   const handleSubmit = async (
     data: NewItem<IAddress>,
-    helpers: FormikHelpers<NewItem<IAddress>>
+    helpers: FormikHelpers<any>
   ) => {
     try {
       setIsSubmitting(true);
@@ -64,10 +65,7 @@ const Address: FC<StepProps> = ({ setStep, step }) => {
     }
   };
 
-  const handleEdit = async (
-    data: IAddress,
-    helpers: FormikHelpers<IAddress>
-  ) => {
+  const handleEdit = async (data: IAddress, helpers: FormikHelpers<any>) => {
     try {
       setIsSubmitting(true);
       // Add new address
@@ -90,10 +88,11 @@ const Address: FC<StepProps> = ({ setStep, step }) => {
         <>
           {UserAddress && UserAddress.length > 0 ? (
             <>
-              {/* User Selects an address */}
+              {/* User has an address */}
               {UserAddress.map((address, index) => (
                 <Fragment key={index}>
                   {" "}
+                  {/* Edit Address */}
                   {editable[index] ? (
                     <Formik
                       initialValues={address}
@@ -231,26 +230,103 @@ const Address: FC<StepProps> = ({ setStep, step }) => {
                       )}
                     </Formik>
                   ) : (
-                    <Paper
-                      sx={(theme) => ({
-                        padding: theme.spacing(3),
-                      })}
-                    >
-                      <Box display="flex" justifyContent="space-between">
-                        <Typography sx={{ fontWeight: "bold" }}>
-                          Address {index + 1}
-                        </Typography>
-                        <Box mb={2} display="flex" justifyContent="flex-end">
-                          <Button onClick={() => toggleEdit(index)}>
-                            Edit
-                          </Button>
+                    <>
+                      <Paper
+                        sx={(theme) => ({
+                          padding: theme.spacing(3),
+                        })}
+                      >
+                        <Box display="flex" justifyContent="space-between">
+                          <Typography sx={{ fontWeight: "bold" }}>
+                            Address {index + 1}
+                          </Typography>
+                          <Box mb={2} display="flex" justifyContent="flex-end">
+                            <Button onClick={() => toggleEdit(index)}>
+                              Edit
+                            </Button>
+                          </Box>
                         </Box>
-                      </Box>
-                      <Typography variant="caption" color="textSecondary">
-                        Full Name
-                      </Typography>
-                    </Paper>
+                        <Grid container spacing={2}>
+                          <Grid
+                            item
+                            xs={6}
+                            md={1}
+                            display="flex"
+                            justifyContent="flex-end"
+                          >
+                            <Typography
+                              textAlign="right"
+                              variant="caption"
+                              color="textSecondary"
+                            >
+                              Full Name
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6} md={11}>
+                            <Typography textAlign="left" variant="body2">
+                              <strong>{address.fullName}</strong>
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={6}
+                            md={1}
+                            display="flex"
+                            justifyContent="flex-end"
+                          >
+                            <Typography
+                              textAlign="right"
+                              variant="caption"
+                              color="textSecondary"
+                            >
+                              Phone
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6} md={11}>
+                            <Typography textAlign="left" variant="body2">
+                              {address.contactNumber}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={6}
+                            md={1}
+                            display="flex"
+                            justifyContent="flex-end"
+                          >
+                            <Typography
+                              textAlign="right"
+                              variant="caption"
+                              color="textSecondary"
+                            >
+                              Address
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6} md={11}>
+                            <Typography textAlign="left" variant="body2">
+                              {`${address.line1} ${address.line2} ${address.city} ${address.state} ${address.country}, ${address.zip} `}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </>
                   )}
+                  <Box mt={3} display="flex" justifyContent="space-between">
+                    <Button
+                      disabled={step === 0}
+                      onClick={() => setStep((step) => --step)}
+                    >
+                      Previous
+                    </Button>
+                    <LoadingButton
+                      disabled={editable.some((state) => state === true)}
+                      onClick={() => setStep((step) => ++step)}
+                      // loading={isSubmitting}
+                      variant="contained"
+                    >
+                      Next
+                    </LoadingButton>
+                  </Box>
                 </Fragment>
               ))}
             </>

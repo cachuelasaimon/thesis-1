@@ -43,7 +43,6 @@ export const Set: <T>(params: ISetDocProps<T>) => any = async ({
   data,
 }) => {
   try {
-    console.log("set doc logs", data, docRef);
     await setDoc(
       typeof docRef === "string" ? doc(database, docRef) : docRef,
       data as any

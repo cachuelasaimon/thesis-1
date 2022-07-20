@@ -1,4 +1,4 @@
-import { BaseSchema } from "yup";
+import { BaseSchema } from "types";
 
 export interface IItem extends BaseSchema {
   quantity: number;
@@ -7,5 +7,3 @@ export interface IItem extends BaseSchema {
   status: "checked_out" | "removed" | "active";
   show: boolean;
 }
-
-export type INewCartItem = Omit<IItem, "id" | "createdAt">;

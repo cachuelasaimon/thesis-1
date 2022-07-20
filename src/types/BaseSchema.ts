@@ -3,4 +3,4 @@ export interface BaseSchema {
   createdAt?: Date | string;
 }
 
-export type NewItem<T> = Omit<T, "id">;
+export type NewItem<T> = Omit<T, "id" | "createdAt">;

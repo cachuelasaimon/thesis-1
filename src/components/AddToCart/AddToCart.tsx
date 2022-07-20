@@ -13,9 +13,8 @@ import {
 import { LoadingButton } from "@mui/lab";
 import { Add as Plus, Remove } from "@mui/icons-material";
 import { IProduct } from "types";
-import { collections, Add, database, useQuickNotif } from "utils";
-import { collection } from "firebase/firestore";
-import { INewCartItem } from "types";
+import { collections, Add, useQuickNotif } from "utils";
+import { IItem } from "types";
 
 interface IAddToCartProps {
   product: IProduct;
@@ -34,11 +33,8 @@ const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product, userId }) => {
     try {
       if (!isSubmitting) {
         setIsSubmitting(true);
-        await Add<INewCartItem>({
-          collectionRef: collection(
-            database,
-            `${collections.carts.string}/${userId}/items`
-          ),
+        await Add<IItem>({
+          collectionRef: `${collections.carts.string}/${userId}/items`,
           data: {
             productId: product.id,
             quantity,
