@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Checkout from "./Checkout";
+import { CheckoutModal } from "./modals";
 
 interface ICartProps {
   cartId: string;
@@ -42,6 +43,10 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
   });
   const products = productList || null;
 
+  const [openCheckoutModal, setOpenCheckoutModal] = useState<boolean>(false);
+  const handleOpenCheckout = () => setOpenCheckoutModal(true);
+  const handleCloseCheckout = () => setOpenCheckoutModal(false);
+
   const handleCheckout = async () => {
     try {
       if (itemList !== null) {
@@ -63,7 +68,6 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
       showError();
     }
   };
-  console.log("selected items", selectedItems);
 
   return (
     <>
@@ -87,35 +91,28 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
                         ),
                         ...item,
                       }))
-                      .map(
-                        ({
-                          id,
-                          name,
-                          ...rest
-                        }: Partial<IProduct> &
-                          Partial<IItem> & { id: string }) => (
-                          <Grid key={name || "" + id} item xs={12}>
-                            <CartItem
-                              cartId={cartId}
-                              isSelected={Boolean(
-                                selectedItems?.some((item) => item.id === id)
-                              )}
-                              id={id}
-                              setSelectedItems={setSelectedItems}
-                              {...rest}
-                              name={name}
-                              key={id}
-                            />
-                          </Grid>
-                        )
-                      )}
+                      .map(({ id, name, ...rest }: any, index: number) => (
+                        <Grid key={index} item xs={12}>
+                          <CartItem
+                            cartId={cartId}
+                            isSelected={Boolean(
+                              selectedItems?.some((item) => item.id === id)
+                            )}
+                            id={id}
+                            setSelectedItems={setSelectedItems}
+                            {...rest}
+                            name={name}
+                            key={id}
+                          />
+                        </Grid>
+                      ))}
                   </Grid>
                 </Paper>
               </Grid>
               {/* Checkout Section*/}
               <Checkout
                 selectedItems={selectedItems}
-                handleCheckout={handleCheckout}
+                handleOpenCheckout={handleOpenCheckout}
               />
             </Grid>
           ) : (
@@ -184,6 +181,9 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
           </Box>
         )}
       </Hidden>
+
+      {/* Modals */}
+      <CheckoutModal open={openCheckoutModal} onClose={handleCloseCheckout} />
     </>
   );
 };

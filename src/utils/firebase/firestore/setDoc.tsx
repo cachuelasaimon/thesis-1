@@ -6,17 +6,23 @@ import {
   // query,
   // where,
   WhereFilterOp,
+  DocumentReference,
+  doc,
+  CollectionReference,
+  collection,
 } from "firebase/firestore";
+import { database } from "utils";
+import { NewItem } from "types";
 // import { useEffect, useState } from "react";
 
 export interface ISetDocProps<T> {
-  docRef: any;
+  docRef: string | DocumentReference;
   data: T;
 }
 
 export interface IAddDocProps<T> {
-  collectionRef: any;
-  data: T;
+  collectionRef: string | CollectionReference;
+  data: NewItem<T>;
 }
 
 export interface IGetOneDocumentProps {
@@ -24,7 +30,7 @@ export interface IGetOneDocumentProps {
 }
 
 export interface ICollectionWithQueryProps {
-  collectionRef: any;
+  collectionRef: string | CollectionReference;
   queryParams: {
     key: string;
     operator: WhereFilterOp;
@@ -37,8 +43,11 @@ export const Set: <T>(params: ISetDocProps<T>) => any = async ({
   data,
 }) => {
   try {
-    console.log("set doc logs", data);
-    await setDoc(docRef, data);
+    console.log("set doc logs", data, docRef);
+    await setDoc(
+      typeof docRef === "string" ? doc(database, docRef) : docRef,
+      data as any
+    );
   } catch (err) {
     throw err;
   }
@@ -49,7 +58,15 @@ export const Add: <T>(params: IAddDocProps<T>) => any = async ({
   data,
 }) => {
   try {
-    await addDoc(collectionRef, data);
+    await addDoc(
+      typeof collectionRef === "string"
+        ? collection(database, collectionRef)
+        : collectionRef,
+      {
+        ...data,
+        createdAt: new Date(),
+      }
+    );
   } catch (err) {
     throw err;
   }

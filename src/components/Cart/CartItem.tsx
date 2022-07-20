@@ -10,7 +10,7 @@ import {
 import { Add as Plus, Remove } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-import { formatCurrency, collections, database } from "utils";
+import { formatCurrency, collections, database, useErrorNotif } from "utils";
 import { runTransaction, doc } from "firebase/firestore";
 import { ICartItemProps } from "types";
 // import { altImageName } from "utils";
@@ -28,6 +28,7 @@ const CartItem: React.FC<ICartItemProps> = ({
   ...rest
 }) => {
   const theme = useTheme();
+  const showError = useErrorNotif();
   const [localQuantity, setQuantity] = useState<number>(quantity || 0);
 
   const handleChangeQuantity = async (value: number) => {
@@ -67,7 +68,7 @@ const CartItem: React.FC<ICartItemProps> = ({
         );
       });
     } catch (err) {
-      console.log(err);
+      showError(err);
     } finally {
       setQuantity(value);
     }
@@ -137,12 +138,12 @@ const CartItem: React.FC<ICartItemProps> = ({
               width: theme.spacing(5),
               input: {
                 textAlign: "center",
-                "moz-appearance": "textfield",
-                "-webkit-appearance": "textfield",
+                MozAppearance: "textfield",
+                WebkitAppearance: "textfield",
               },
               "input::-webkit-inner-spin-button, input::-webkit-outer-spin-button":
                 {
-                  "-webkit-appearance": "none",
+                  WebkitAppearance: "none",
                   margin: "0",
                 },
             })}
@@ -176,7 +177,6 @@ const CartItem: React.FC<ICartItemProps> = ({
         <Checkbox
           checked={isSelected}
           onClick={() => {
-            console.log(isSelected);
             isSelected
               ? setSelectedItems((items) =>
                   items?.filter((item: any) => item.id !== id)

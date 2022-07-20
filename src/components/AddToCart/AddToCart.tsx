@@ -82,12 +82,12 @@ const AddToCart: FC<IAddToCartProps> = ({ open, onClose, product, userId }) => {
               width: theme.spacing(5),
               input: {
                 textAlign: "center",
-                "moz-appearance": "textfield",
-                "-webkit-appearance": "textfield",
+                MozAppearance: "textfield",
+                WebkitAppearance: "textfield",
               },
               "input::-webkit-inner-spin-button, input::-webkit-outer-spin-button":
                 {
-                  "-webkit-appearance": "none",
+                  WebkitAppearance: "none",
                   margin: "0",
                 },
             })}

@@ -1,5 +1,5 @@
-import { IItem } from "./IItem";
+import { IItem, BaseSchema } from "types";
 
-export interface ICart {
+export interface ICart extends BaseSchema {
   items: IItem[];
 }

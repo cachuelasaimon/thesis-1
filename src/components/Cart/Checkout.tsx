@@ -2,21 +2,22 @@ import { FC } from "react";
 import { Grid, Paper, Typography, Button, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { CheckoutProps } from "types";
+import { formatCurrency } from "utils";
 
-const Checkout: FC<CheckoutProps> = ({ selectedItems, handleCheckout }) => {
+const Checkout: FC<CheckoutProps> = ({ selectedItems, handleOpenCheckout }) => {
   const theme = useTheme();
   return (
     <Grid item md={4}>
       <Paper sx={{ padding: theme.spacing(2) }}>
         <Typography variant="h6">Proceed to Checkout</Typography>
         {selectedItems && selectedItems.length > 0 ? (
-          selectedItems.map(({ name, quantity }) => (
-            <Box mt={2} mb={1}>
+          selectedItems.map(({ name, quantity, price }, index) => (
+            <Box key={index} mt={2} mb={1}>
               <Typography gutterBottom variant="body2">
                 {name}
               </Typography>
               <Typography gutterBottom variant="caption" color="textSecondary">
-                × {quantity}
+                <strong>{formatCurrency(price)}</strong> × {quantity}
               </Typography>
             </Box>
           ))
@@ -37,9 +38,34 @@ const Checkout: FC<CheckoutProps> = ({ selectedItems, handleCheckout }) => {
             No Items selected
           </Typography>
         )}
+
+        {/* Transaction Breakdown */}
+        {selectedItems && selectedItems.length > 0 && (
+          <Grid mt={5} mb={3} container>
+            <Grid item md={7}>
+              <Typography component="p" textAlign="right" variant="body2">
+                Sub Total
+              </Typography>
+            </Grid>
+            <Grid item md={5}>
+              <Typography component="p" textAlign="right" variant="caption">
+                <strong>
+                  {formatCurrency(
+                    selectedItems.reduce(
+                      (acc, prev) =>
+                        acc + (prev.price || 0) * (prev?.quantity || 1),
+                      0
+                    )
+                  )}
+                </strong>
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
+
         <Button
           disabled={!Boolean(selectedItems && selectedItems.length > 0)}
-          onClick={handleCheckout}
+          onClick={handleOpenCheckout}
           fullWidth={true}
           variant="contained"
           sx={{ borderRadius: "5px" }}

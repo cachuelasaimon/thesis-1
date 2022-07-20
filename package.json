@@ -20,6 +20,7 @@
     "@types/node": "^16.11.25",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "axios": "^0.27.2",
     "babel-eslint": "10.x",
     "date-fns": "^2.28.0",
     "eslint-config-react-app": "^7.0.1",

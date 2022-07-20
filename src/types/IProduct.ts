@@ -1,4 +1,6 @@
-export interface IProduct {
+import { BaseSchema } from "types";
+
+export interface IProduct extends BaseSchema {
   doc: any; // ? Firebase Document
   description?: string;
   picture: string;
@@ -8,4 +10,5 @@ export interface IProduct {
   stocks: number;
   tags?: string[];
   ratings?: number;
+  show: boolean;
 }
