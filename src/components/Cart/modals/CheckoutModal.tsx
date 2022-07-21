@@ -43,10 +43,10 @@ const stepsArr: { label: string; Component: FC<any>; header?: string }[] = [
     label: "Payment Method",
     Component: PaymentMethod,
   },
-  {
-    label: "Place Order",
-    Component: PlaceOrder,
-  },
+  // {
+  //   label: "Place Order",
+  //   Component: PlaceOrder,
+  // },
 ];
 
 const CheckoutModal: FC<CheckoutModalProps> = ({ open, onClose }) => {

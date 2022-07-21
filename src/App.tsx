@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { APITest } from "pages";
 // Routing
 import { useState } from "react";
@@ -54,27 +55,30 @@ const Pages: IPage[] = [
 function App() {
   const [theme] = useState(CustomTheme.darkTheme);
   // const classes = useStyles(theme as Theme);
+  const clientId = process.env.REACT_APP_PAYPAL_CLIENT_ID || "";
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{background: theme.palette.background.default}}>
-        <Router>
-          <Routes>
-            {Pages.map(({ path, Component, requireAuth }) => (
-              <Route
-                key={path}
-                path={path}
-                element={
-                  requireAuth ? (
-                    <WithAuth Component={Component} />
-                  ) : (
-                    <Component />
-                  )
-                }
-              />
-            ))}
-          </Routes>
-        </Router>
+      <div style={{ background: theme.palette.background.default }}>
+        <PayPalScriptProvider options={{ "client-id": clientId }}>
+          <Router>
+            <Routes>
+              {Pages.map(({ path, Component, requireAuth }) => (
+                <Route
+                  key={path}
+                  path={path}
+                  element={
+                    requireAuth ? (
+                      <WithAuth Component={Component} />
+                    ) : (
+                      <Component />
+                    )
+                  }
+                />
+              ))}
+            </Routes>
+          </Router>
+        </PayPalScriptProvider>
       </div>
     </ThemeProvider>
   );
