@@ -3,6 +3,7 @@ import { Paper, Alert } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Info } from "@mui/icons-material";
 import { PayPalButtons } from "@paypal/react-paypal-js";
+import { Box } from "@mui/system";
 
 const PaymentMethod: FC = () => {
   const theme = useTheme();
@@ -20,6 +21,8 @@ const PaymentMethod: FC = () => {
       </Alert>
       <Paper
         sx={{
+          display: "flex",
+          justifyContent: "center",
           padding: theme.spacing(3),
           background: theme.palette.common.white,
         }}
