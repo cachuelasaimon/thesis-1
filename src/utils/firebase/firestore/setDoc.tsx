@@ -7,6 +7,7 @@ import {
   // where,
   WhereFilterOp,
   DocumentReference,
+  DocumentSnapshot,
   doc,
   CollectionReference,
   collection,
@@ -26,7 +27,7 @@ export interface IAddDocProps<T> {
 }
 
 export interface IGetOneDocumentProps {
-  docRef: any;
+  docRef: DocumentReference | string;
 }
 
 export interface ICollectionWithQueryProps {
@@ -82,12 +83,14 @@ export const getCollectionWithQuery: (
   }
 };
 
-export const GetOne: (params: IGetOneDocumentProps) => any = async ({
-  docRef,
-}) => {
+export const Get = async <T,>({ docRef }: IGetOneDocumentProps) => {
   try {
-    const doc: any = await getDoc(docRef);
-    return doc;
+    const snap: DocumentSnapshot = await getDoc(
+      typeof docRef === "string" ? doc(database, docRef) : docRef
+    );
+
+    console.log("get doc resutl", snap.data());
+    return snap.data() as T;
   } catch (err) {
     throw err;
   }

@@ -3,7 +3,6 @@ import { Paper, Alert } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Info } from "@mui/icons-material";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { Box } from "@mui/system";
 
 const PaymentMethod: FC = () => {
   const theme = useTheme();

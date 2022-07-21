@@ -1,6 +1,11 @@
-import { collection } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getFirestore,
+  CollectionReference,
+  DocumentReference,
+} from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { getFirestore, CollectionReference } from "firebase/firestore";
 import creds from "utils/firebase/config";
 
 const firebaseApp = initializeApp(creds);
@@ -16,7 +21,13 @@ interface ICollection {
   string: string;
 }
 
+interface ICompanyInfo {
+  ref: DocumentReference;
+  string: string;
+}
+
 interface ICollections {
+  companyInfo: ICompanyInfo;
   addresses: ICollection;
   carts: ICollection;
   orders: ICollection;
@@ -25,6 +36,10 @@ interface ICollections {
 }
 
 export const collections: ICollections = {
+  companyInfo: {
+    ref: doc(database, `${db_dev}`),
+    string: "test",
+  },
   addresses: {
     ref: collection(database, `${db_dev}/address`),
     string: `${db_dev}/address`,

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -19,12 +19,27 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { useErrorNotif, auth, useLogin } from "utils";
+import { useErrorNotif, auth, useLogin, Get, collections } from "utils";
+import { ICompanyInformation } from "types";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export default function TemporaryDrawer() {
-  const [state, setState] = React.useState({
+  const [companyInfo, setCompanyInfo] = useState<
+    ICompanyInformation | undefined
+  >();
+  useEffect(() => {
+    const getCompanyInfo = async () => {
+      const data = await Get<ICompanyInformation>({
+        docRef: collections.companyInfo.ref,
+      });
+      setCompanyInfo(data);
+    };
+
+    if (!companyInfo) getCompanyInfo();
+  }, [companyInfo]);
+
+  const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
@@ -64,14 +79,21 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Logo"].map((text, index) => (
-          <ListItem button onClick={() => navigate("/home")} key={text}>
+        <ListItem button onClick={() => navigate("/home")}>
+          <Box display="flex" alignItems="center">
             <ListItemIcon>
-              <FiberManualRecordIcon />
+              <img
+                draggable={false}
+                src={companyInfo?.logo}
+                style={{ maxHeight: "2rem" }}
+                alt="company-logo"
+              />
             </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+            <Typography>
+              <strong>{companyInfo?.companyName}</strong>
+            </Typography>
+          </Box>
+        </ListItem>
       </List>
       <Divider />
       <List>
@@ -93,39 +115,43 @@ export default function TemporaryDrawer() {
 
   const navigate = useNavigate();
   return (
-    <div>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="sticky">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={toggleDrawer("left", true)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1 }}
-            ></Typography>
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
+    <>
+      {companyInfo && (
+        <div>
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="sticky">
+              <Toolbar>
+                <IconButton
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ mr: 2 }}
+                  onClick={toggleDrawer("left", true)}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ flexGrow: 1 }}
+                ></Typography>
+                <Button color="inherit" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </Toolbar>
+            </AppBar>
+          </Box>
 
-      <Drawer
-        anchor={"left"}
-        open={state["left"]}
-        onClose={toggleDrawer("left", false)}
-      >
-        {list("left")}
-      </Drawer>
-    </div>
+          <Drawer
+            anchor={"left"}
+            open={state["left"]}
+            onClose={toggleDrawer("left", false)}
+          >
+            {list("left")}
+          </Drawer>
+        </div>
+      )}
+    </>
   );
 }

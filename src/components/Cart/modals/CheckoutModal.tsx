@@ -20,7 +20,7 @@ import { IProduct } from "types";
 // Steps
 import Address from "./Address";
 import PaymentMethod from "./PaymentMethod";
-import PlaceOrder from "./PlaceOrder";
+// import PlaceOrder from "./PlaceOrder";
 
 interface CheckoutModalProps {
   onClose: () => void;
