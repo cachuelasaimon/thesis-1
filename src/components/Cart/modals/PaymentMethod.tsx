@@ -15,8 +15,8 @@ const PaymentMethod: FC = () => {
       >
         We are only accepting <strong>PayPal</strong> and{" "}
         <strong>Debit or Credit Card</strong> payment as of the moment. Rest
-        assured that we'll be integratng other payment methods like GCash in the
-        next coming weeks
+        assured that we'll be integrating other payment methods like{" "}
+        <strong>GCash</strong> in the next coming weeks.
       </Alert>
       <Paper
         sx={{
