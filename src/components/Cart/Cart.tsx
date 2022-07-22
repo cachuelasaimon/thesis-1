@@ -143,23 +143,54 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
       </Container>
       <Hidden mdUp>
         {products && items && items.length > 0 ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-              position: "fixed",
-              bottom: theme.spacing(2),
-            }}
-          >
-            <Button
-              size="large"
-              variant="contained"
-              sx={{ borderRadius: "25px", width: "85%" }}
+          <Container>
+            <Paper sx={{ padding: theme.spacing(2) }}>
+              <Grid container>
+                {items
+                  .map((item) => ({
+                    ...products.find(
+                      (product) => product.id === item.productId
+                    ),
+                    ...item,
+                  }))
+                  .map(({ id, name, ...rest }: any, index: number) => (
+                    <Grid key={index} item xs={12}>
+                      <CartItem
+                        cartId={cartId}
+                        isSelected={Boolean(
+                          selectedItems?.some((item) => item.id === id)
+                        )}
+                        id={id}
+                        setSelectedItems={setSelectedItems}
+                        {...rest}
+                        name={name}
+                        key={id}
+                      />
+                    </Grid>
+                  ))}
+              </Grid>
+            </Paper>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                position: "fixed",
+                width: "93%",
+                bottom: theme.spacing(2),
+              }}
             >
-              Proceed to checkout
-            </Button>
-          </Box>
+              {console.log(selectedItems === null || selectedItems.length < 1)}
+              <Button
+                disabled={selectedItems === null || selectedItems.length < 1}
+                size="large"
+                variant="contained"
+                fullWidth
+                onClick={handleOpenCheckout}
+              >
+                Proceed to checkout
+              </Button>
+            </Box>
+          </Container>
         ) : (
           <Box
             display="flex"
@@ -183,7 +214,13 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
       </Hidden>
 
       {/* Modals */}
-      <CheckoutModal open={openCheckoutModal} onClose={handleCloseCheckout} />
+      {selectedItems && (
+        <CheckoutModal
+          selectedItems={selectedItems}
+          open={openCheckoutModal}
+          onClose={handleCloseCheckout}
+        />
+      )}
     </>
   );
 };

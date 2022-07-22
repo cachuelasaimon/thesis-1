@@ -10,17 +10,18 @@ import ListItemText from "@mui/material/ListItemText";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StarIcon from "@mui/icons-material/Star";
 import PhoneIcon from "@mui/icons-material/Phone";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { useErrorNotif, auth, useLogin, Get, collections } from "utils";
-import { ICompanyInformation } from "types";
+import { ICompanyInformation, IUser, ROLES } from "types";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -28,6 +29,10 @@ export default function TemporaryDrawer() {
   const [companyInfo, setCompanyInfo] = useState<
     ICompanyInformation | undefined
   >();
+  const [userInfo, setUserInfo] = useState<IUser | undefined>();
+
+  const { user } = useLogin();
+
   useEffect(() => {
     const getCompanyInfo = async () => {
       const data = await Get<ICompanyInformation>({
@@ -38,6 +43,17 @@ export default function TemporaryDrawer() {
 
     if (!companyInfo) getCompanyInfo();
   }, [companyInfo]);
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const data = await Get<IUser>({
+        docRef: `${collections.users.string}/${user?.uid}`,
+      });
+      setUserInfo(data);
+    };
+
+    if (!userInfo && user) getUserInfo();
+  }, [userInfo, user]);
 
   const [state, setState] = useState({
     top: false,
@@ -99,8 +115,8 @@ export default function TemporaryDrawer() {
       <List>
         {[
           { label: "Cart", Icon: ShoppingCartIcon, link: "/cart" },
-          { label: "Wishlist", Icon: StarIcon, link: "/wishlist" },
-          { label: "Contact", Icon: PhoneIcon, link: "/contact" },
+          // { label: "Wishlist", Icon: StarIcon, link: "/wishlist" },
+          // { label: "Contact", Icon: PhoneIcon, link: "/contact" },
         ].map(({ label, Icon, link }) => (
           <ListItem onClick={() => navigate(link)} button key={label}>
             <ListItemIcon>
@@ -109,6 +125,22 @@ export default function TemporaryDrawer() {
             <ListItemText primary={label} />
           </ListItem>
         ))}
+
+        <Divider />
+        {userInfo &&
+          userInfo.roles.includes(ROLES.ADMIN) &&
+          [
+            { label: "Orders", Icon: ReceiptLongIcon, link: "/orders" },
+            { label: "Inventory", Icon: InventoryIcon, link: "/inventory" },
+            // { label: "Contact", Icon: PhoneIcon, link: "/contact" },
+          ].map(({ label, Icon, link }) => (
+            <ListItem onClick={() => navigate(link)} button key={label}>
+              <ListItemIcon>
+                <Icon />
+              </ListItemIcon>
+              <ListItemText primary={label} />
+            </ListItem>
+          ))}
       </List>
     </Box>
   );

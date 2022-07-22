@@ -8,6 +8,7 @@ export * from "./ICart";
 export * from "./IPage";
 export * from "./INewIUser";
 export * from "./IAddress";
+export * from "./IOrder";
 export * from "./ICompanyInformation";
 
 // Page Props

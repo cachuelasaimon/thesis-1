@@ -61,14 +61,29 @@ const SingleProduct: FC = () => {
     return (
       <>
         <UserWrapper />
-        <h2 style={{ textAlign: "center", marginTop: "41vh" }}>
-          We could not find what you're looking for... {":<"}
-        </h2>
-        <Grid container justifyContent={"center"}>
-          <Button variant="contained" onClick={() => navigate("/home")}>
-            Go Home
-          </Button>
-        </Grid>
+        <Box
+          minHeight="100vh"
+          display="flex"
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+        >
+          <Typography
+            variant="h6"
+            color="textPrimary"
+            sx={(theme) => ({
+              textAlign: "center",
+              marginBottom: theme.spacing(3),
+            })}
+          >
+            We could not find what you're looking for
+          </Typography>
+          <Grid container justifyContent={"center"}>
+            <Button variant="contained" onClick={() => navigate("/home")}>
+              Go Home
+            </Button>
+          </Grid>
+        </Box>
       </>
     );
 

@@ -21,7 +21,7 @@ import {
   VisibilityOffOutlined as HideIcon,
 } from "@mui/icons-material";
 
-const LoginPage: React.FC = () => {
+const LoginPage: React.FC = (props: any) => {
   const navigate = useNavigate();
   const showError = useErrorNotif();
   const { loggedIn, isLoading, checkState } = useLogin();
@@ -68,6 +68,8 @@ const LoginPage: React.FC = () => {
   };
   return (
     <AuthBase
+      darkMode={props?.darkMode}
+      toggleTheme={props?.toggleTheme}
       carouselItems={[
         {
           img: "assets/images/Login.png",

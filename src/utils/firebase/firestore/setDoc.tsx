@@ -89,7 +89,6 @@ export const Get = async <T,>({ docRef }: IGetOneDocumentProps) => {
       typeof docRef === "string" ? doc(database, docRef) : docRef
     );
 
-    console.log("get doc resutl", snap.data());
     return snap.data() as T;
   } catch (err) {
     throw err;

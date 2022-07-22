@@ -30,6 +30,7 @@ export const useErrorNotif = () => {
 };
 
 export { default as useQuickNotif } from "./useQuickNotif";
+export * from "./createHashMap";
 
 export const altImageName: (imgName: string) => string = (imgName) =>
   imgName.toLowerCase().split(" ").join("-");

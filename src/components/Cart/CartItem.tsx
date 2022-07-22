@@ -6,6 +6,7 @@ import {
   IconButton,
   Box,
   Checkbox,
+  Hidden,
 } from "@mui/material";
 import { Add as Plus, Remove } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
@@ -95,100 +96,213 @@ const CartItem: React.FC<ICartItemProps> = ({
     //     </Grid>
     //   </Grid>
     // </Grid>>
-    <Grid container spacing={2}>
-      <Grid item xs={4} sm={4}>
-        {" "}
-        <img
-          src={picture}
-          style={{
-            maxWidth: "100%",
-            borderRadius: "5px",
-            marginRight: theme.spacing(3),
-          }}
-          alt={name as string}
-        />
-      </Grid>
-      <Grid item xs={7} sm={7}>
-        {" "}
-        <Typography gutterBottom color="textPrimary" variant="h6">
-          {name || ""}
-        </Typography>
-        {/* Quantity */}
-        <Box display="flex">
-          <IconButton
-            size="small"
-            sx={{ padding: "0 0.6rem" }}
-            onClick={() =>
-              handleChangeQuantity(
-                localQuantity > 1 ? localQuantity - 1 : localQuantity
-              )
-            }
+    <>
+      <Hidden mdDown>
+        <Grid container spacing={2}>
+          <Grid item xs={4} sm={4}>
+            {" "}
+            <div
+              style={{
+                minHeight: "15rem",
+                backgroundImage: `url("${picture}")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                borderRadius: "5px",
+                marginRight: theme.spacing(3),
+              }}
+            />
+          </Grid>
+          <Grid item xs={7} sm={7}>
+            {" "}
+            <Typography gutterBottom color="textPrimary" variant="h6">
+              {name || ""}
+            </Typography>
+            {/* Quantity */}
+            <Box display="flex">
+              <IconButton
+                size="small"
+                sx={{ padding: "0 0.6rem" }}
+                onClick={() =>
+                  handleChangeQuantity(
+                    localQuantity > 1 ? localQuantity - 1 : localQuantity
+                  )
+                }
+              >
+                <Remove sx={{ fontSize: "15px" }} />
+              </IconButton>
+              <InputBase
+                readOnly
+                type="number"
+                inputProps={{
+                  max: stocks,
+                  min: 1,
+                  "aria-label": `item name:${name} quantity`,
+                }}
+                sx={(theme) => ({
+                  width: theme.spacing(5),
+                  input: {
+                    textAlign: "center",
+                    MozAppearance: "textfield",
+                    WebkitAppearance: "textfield",
+                  },
+                  "input::-webkit-inner-spin-button, input::-webkit-outer-spin-button":
+                    {
+                      WebkitAppearance: "none",
+                      margin: "0",
+                    },
+                })}
+                value={localQuantity}
+              />{" "}
+              <IconButton
+                size="small"
+                sx={{ padding: "0 0.6rem" }}
+                disabled={localQuantity === (stocks || 0)}
+                onClick={() =>
+                  handleChangeQuantity(
+                    localQuantity < (stocks || 0)
+                      ? localQuantity + 1
+                      : localQuantity
+                  )
+                }
+              >
+                <Plus sx={{ fontSize: "15px" }} />
+              </IconButton>
+            </Box>
+            {/* Price */}
+            <Typography
+              sx={(theme) => ({
+                marginTop: theme.spacing(1),
+                color: grey[400],
+              })}
+              variant="body1"
+            >
+              <strong>{formatCurrency(price)}</strong>{" "}
+              <Typography variant="caption">per unit</Typography>
+            </Typography>{" "}
+          </Grid>
+          <Grid
+            sx={{ display: "flex", alignItems: "center" }}
+            item
+            xs={1}
+            sm={1}
           >
-            <Remove sx={{ fontSize: "15px" }} />
-          </IconButton>
-          <InputBase
-            readOnly
-            type="number"
-            inputProps={{
-              max: stocks,
-              min: 1,
-              "aria-label": `item name:${name} quantity`,
-            }}
-            sx={(theme) => ({
-              width: theme.spacing(5),
-              input: {
-                textAlign: "center",
-                MozAppearance: "textfield",
-                WebkitAppearance: "textfield",
-              },
-              "input::-webkit-inner-spin-button, input::-webkit-outer-spin-button":
-                {
-                  WebkitAppearance: "none",
-                  margin: "0",
-                },
-            })}
-            value={localQuantity}
-          />{" "}
-          <IconButton
-            size="small"
-            sx={{ padding: "0 0.6rem" }}
-            disabled={localQuantity === (stocks || 0)}
-            onClick={() =>
-              handleChangeQuantity(
-                localQuantity < (stocks || 0)
-                  ? localQuantity + 1
-                  : localQuantity
-              )
-            }
-          >
-            <Plus sx={{ fontSize: "15px" }} />
-          </IconButton>
-        </Box>
-        {/* Price */}
-        <Typography
-          sx={(theme) => ({ marginTop: theme.spacing(1), color: grey[400] })}
-          variant="body1"
-        >
-          <strong>{formatCurrency(price)}</strong>{" "}
-          <Typography variant="caption">per unit</Typography>
-        </Typography>{" "}
-      </Grid>
-      <Grid sx={{ display: "flex", alignItems: "center" }} item xs={1} sm={1}>
-        <Checkbox
-          checked={isSelected}
-          onClick={() => {
-            isSelected
-              ? setSelectedItems((items) =>
-                  items?.filter((item: any) => item.id !== id)
-                )
-              : setSelectedItems((items) => [
-                  ...items,
-                  { picture, quantity, name, stocks, price, id, ...rest },
-                ]);
-          }}
-        />
-      </Grid>
-    </Grid>
+            <Checkbox
+              checked={isSelected}
+              onClick={() => {
+                isSelected
+                  ? setSelectedItems((items) =>
+                      items?.filter((item: any) => item.id !== id)
+                    )
+                  : setSelectedItems((items) => [
+                      ...items,
+                      { picture, quantity, name, stocks, price, id, ...rest },
+                    ]);
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Hidden>
+      <Hidden mdUp>
+        <Grid container spacing={2}>
+          <Grid item xs={4} sm={4}>
+            {" "}
+            <div
+              style={{
+                minHeight: "6rem",
+                backgroundImage: `url("${picture}")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                borderRadius: "5px",
+                marginRight: theme.spacing(3),
+              }}
+            />
+          </Grid>
+          <Grid item xs={5}>
+            {" "}
+            <Typography gutterBottom color="textPrimary" variant="h6">
+              {name || ""}
+            </Typography>
+            {/* Quantity */}
+            <Box display="flex">
+              <IconButton
+                size="small"
+                sx={{ padding: "0 0.6rem" }}
+                onClick={() =>
+                  handleChangeQuantity(
+                    localQuantity > 1 ? localQuantity - 1 : localQuantity
+                  )
+                }
+              >
+                <Remove sx={{ fontSize: "15px" }} />
+              </IconButton>
+              <InputBase
+                readOnly
+                type="number"
+                inputProps={{
+                  max: stocks,
+                  min: 1,
+                  "aria-label": `item name:${name} quantity`,
+                }}
+                sx={(theme) => ({
+                  width: theme.spacing(5),
+                  input: {
+                    textAlign: "center",
+                    MozAppearance: "textfield",
+                    WebkitAppearance: "textfield",
+                  },
+                  "input::-webkit-inner-spin-button, input::-webkit-outer-spin-button":
+                    {
+                      WebkitAppearance: "none",
+                      margin: "0",
+                    },
+                })}
+                value={localQuantity}
+              />{" "}
+              <IconButton
+                size="small"
+                sx={{ padding: "0 0.6rem" }}
+                disabled={localQuantity === (stocks || 0)}
+                onClick={() =>
+                  handleChangeQuantity(
+                    localQuantity < (stocks || 0)
+                      ? localQuantity + 1
+                      : localQuantity
+                  )
+                }
+              >
+                <Plus sx={{ fontSize: "15px" }} />
+              </IconButton>
+            </Box>
+            {/* Price */}
+            <Typography
+              sx={(theme) => ({
+                marginTop: theme.spacing(1),
+                color: grey[400],
+              })}
+              variant="body1"
+            >
+              <strong>{formatCurrency(price)}</strong>{" "}
+              <Typography variant="caption">per unit</Typography>
+            </Typography>{" "}
+          </Grid>
+          <Grid sx={{ display: "flex", alignItems: "center" }} item xs={3}>
+            <Checkbox
+              checked={isSelected}
+              onClick={() => {
+                isSelected
+                  ? setSelectedItems((items) =>
+                      items?.filter((item: any) => item.id !== id)
+                    )
+                  : setSelectedItems((items) => [
+                      ...items,
+                      { picture, quantity, name, stocks, price, id, ...rest },
+                    ]);
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Hidden>
+    </>
   );
 };
 

@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { APITest } from "pages";
 // Routing
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Layouts
 import { WithAuth } from "layouts";
@@ -33,17 +33,52 @@ import {
   NotFound,
   SignUp,
   ForgotPassword,
+  AdminOrderList,
+  AdminProductList,
 } from "pages";
 
 const Pages: IPage[] = [
-  { path: "/cart", Component: Cart, requireAuth: true },
-  { path: "/home", Component: Home, requireAuth: true },
-  { path: "/", Component: Login, requireAuth: false },
-  { path: "/sign-up", Component: SignUp, requireAuth: false },
-  { path: "/forgot-password", Component: ForgotPassword, requireAuth: false },
-  { path: "/test", Component: APITest, requireAuth: false },
-  { path: "*", Component: NotFound, requireAuth: false },
-  { path: "/product/:productId", Component: SingleProduct, requireAuth: true },
+  { path: "/cart", Component: Cart, requireAuth: true, requireAdmin: false },
+  { path: "/home", Component: Home, requireAuth: true, requireAdmin: false },
+  { path: "/", Component: Login, requireAuth: false, requireAdmin: false },
+  {
+    path: "/sign-up",
+    Component: SignUp,
+    requireAuth: false,
+    requireAdmin: false,
+  },
+  {
+    path: "/forgot-password",
+    Component: ForgotPassword,
+    requireAuth: false,
+    requireAdmin: false,
+  },
+  {
+    path: "/test",
+    Component: APITest,
+    requireAuth: false,
+    requireAdmin: false,
+  },
+  { path: "*", Component: NotFound, requireAuth: false, requireAdmin: false },
+  {
+    path: "/product/:productId",
+    Component: SingleProduct,
+    requireAuth: true,
+    requireAdmin: false,
+  },
+  {
+    path: "/orders",
+    Component: AdminOrderList,
+    requireAuth: true,
+    requireAdmin: true,
+  },
+
+  {
+    path: "/inventory",
+    Component: AdminProductList,
+    requireAuth: true,
+    requireAdmin: true,
+  },
 ];
 
 // const useStyles = makeStyles((theme: Theme) => ({
@@ -53,9 +88,27 @@ const Pages: IPage[] = [
 // }));
 
 function App() {
-  const [theme] = useState(CustomTheme.darkTheme);
+  const [darkMode, setDarkMode] = useState<boolean>(
+    localStorage.getItem("darkMode") === null
+      ? true
+      : localStorage.getItem("darkMode") === "true"
+      ? true
+      : false
+  );
+  console.log(
+    localStorage.getItem("darkMode") === "true",
+    localStorage.getItem("darkMode")
+  );
   // const classes = useStyles(theme as Theme);
   const clientId = process.env.REACT_APP_PAYPAL_CLIENT_ID || "";
+  const theme = darkMode ? CustomTheme.darkTheme : CustomTheme.lightTheme;
+
+  const toggleTheme = () => {
+    setDarkMode((curr) => {
+      localStorage.setItem("darkMode", JSON.stringify(!curr));
+      return !curr;
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,15 +116,21 @@ function App() {
         <PayPalScriptProvider options={{ "client-id": clientId }}>
           <Router>
             <Routes>
-              {Pages.map(({ path, Component, requireAuth }) => (
+              {Pages.map(({ path, Component, requireAuth, requireAdmin }) => (
                 <Route
                   key={path}
                   path={path}
                   element={
                     requireAuth ? (
-                      <WithAuth Component={Component} />
+                      <WithAuth
+                        requireAdmin={requireAdmin}
+                        Component={Component}
+                      />
                     ) : (
-                      <Component />
+                      <Component
+                        darkMode={darkMode}
+                        toggleTheme={toggleTheme}
+                      />
                     )
                   }
                 />

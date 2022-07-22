@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { grey, blueGrey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import { Theme } from "@mui/material/styles";
 
 const commonProps = {
@@ -16,7 +16,7 @@ const theme = {
     palette: {
       mode: "light",
       background: {
-        default: blueGrey["900"],
+        default: grey["200"],
       },
     },
     ...commonProps,
