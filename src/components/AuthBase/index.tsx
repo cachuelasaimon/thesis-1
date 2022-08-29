@@ -62,8 +62,14 @@ interface ICarouselItem {
 interface IAuthBaseProps extends PropsWithChildren {
   /**
    * @param carouselItems - Custom Carousel Items
+   *
+   * @param {boolean} darkMode - toggles theme (dark/light)
+   *
+   * @param toggleTheme - toggles darkMode
    */
   carouselItems?: ICarouselItem[];
+  darkMode?: boolean;
+  toggleTheme?: any;
 }
 
 const styles: any = {

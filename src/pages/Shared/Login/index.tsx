@@ -1,6 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import { TextField } from "formik-mui";
 import * as Yup from "yup";
 import {
@@ -28,10 +28,12 @@ const LoginPage: React.FC = (props: any) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const theme = useTheme();
 
-  const [showPassword, setShowpassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // if url has email, use it to prefill email field
 
   const handleChangeVisibility = () =>
-    setShowpassword((curr: boolean) => !curr);
+    setShowPassword((curr: boolean) => !curr);
 
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -46,8 +48,8 @@ const LoginPage: React.FC = (props: any) => {
   }, [isLoading, loggedIn, navigate, checkState]);
 
   const handleSubmit = async (
-    values: any
-    // { resetForm }: FormikHelpers<any>
+    values: { email: string; password: string },
+    { setFieldValue, setErrors, resetForm }: FormikHelpers<any>
   ) => {
     try {
       setIsSubmitting(true);
@@ -59,12 +61,13 @@ const LoginPage: React.FC = (props: any) => {
       if (user) navigate("/home");
       // window.setTimeout(() => resetForm(), 1500);
     } catch (err: any) {
-      // console.log("error logs", err);
-      showError((err as any).message);
+      if (err.message.includes("auth/wrong-password"))
+        setFieldValue("password", "");
+      else resetForm();
+      showError(err.message);
     } finally {
       setIsSubmitting(false);
     }
-    navigate("/home");
   };
   return (
     <AuthBase

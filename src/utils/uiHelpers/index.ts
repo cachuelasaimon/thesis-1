@@ -8,6 +8,10 @@ export const useErrorNotif = () => {
       firebaseErr: "auth/email-already-in-use",
       message: "Email is already in use",
     },
+    {
+      firebaseErr: "auth/too-many-requests",
+      message: "Too many wrong attempts, please try again later",
+    },
   ];
   const { enqueueSnackbar } = useSnackbar();
   const renderError = (err?: any) => {

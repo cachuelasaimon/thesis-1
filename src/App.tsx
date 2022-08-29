@@ -91,10 +91,6 @@ function App() {
     //   ? true
     //   : false
   );
-  console.log(
-    localStorage.getItem("darkMode") === "true",
-    localStorage.getItem("darkMode")
-  );
   // const classes = useStyles(theme as Theme);
   const clientId = process.env.REACT_APP_PAYPAL_CLIENT_ID || "";
   const theme = darkMode ? CustomTheme.darkTheme : CustomTheme.lightTheme;
