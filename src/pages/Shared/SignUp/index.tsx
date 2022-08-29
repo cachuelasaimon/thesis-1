@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useTheme } from "@mui/material/styles";
-import { auth, useErrorNotif, useLogin, useQuickNotif } from "utils";
+import { auth, useErrorNotif, useLogin } from "utils";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -45,7 +45,6 @@ const validationSchema = Yup.object().shape({
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
   const showError = useErrorNotif();
-  const quickNotif = useQuickNotif();
   const { loggedIn, isLoading, checkState } = useLogin("/sign-up");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const theme = useTheme();

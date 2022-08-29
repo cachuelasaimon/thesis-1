@@ -17,7 +17,6 @@ import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import { IAddress, StepProps, addressValidation, NewItem } from "types";
 import { useListen, useLogin, collections, Add, Set } from "utils";
-import { isEditable } from "@testing-library/user-event/dist/utils";
 
 const Address: FC<StepProps> = ({ setStep, step }) => {
   const [editable, setEditable] = useState<boolean[]>([false]);

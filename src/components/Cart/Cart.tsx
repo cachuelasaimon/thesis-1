@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { collection } from "firebase/firestore";
-import {
-  database,
-  collections,
-  useListen,
-  useErrorNotif,
-  createSimpleTransaction,
-} from "utils";
+import { database, collections, useListen } from "utils";
 import { IItem, IProduct } from "types";
 import CartItem from "./CartItem";
 import {
@@ -28,7 +22,6 @@ interface ICartProps {
 
 const Cart: React.FC<ICartProps> = ({ cartId }) => {
   const [selectedItems, setSelectedItems] = useState<IProduct[] | null>([]);
-  const showError = useErrorNotif();
   const theme = useTheme();
   const { docs: itemList } = useListen<IItem>({
     collectionRef: collection(
@@ -47,27 +40,27 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
   const handleOpenCheckout = () => setOpenCheckoutModal(true);
   const handleCloseCheckout = () => setOpenCheckoutModal(false);
 
-  const handleCheckout = async () => {
-    try {
-      if (itemList !== null) {
-        await createSimpleTransaction(
-          itemList.map((item: any) => ({
-            read: {
-              ref: `${collections.carts.string}/${cartId}/items/${item.id}`,
-              properties: ["productId", "quantity"],
-            },
-            write: {
-              ref: `${collections.orders.string}/${cartId}/items/${item.id}`,
-              initialProps: { createdAt: new Date() },
-              properties: ["productId", "quantity"],
-            },
-          }))
-        );
-      }
-    } catch (err) {
-      showError();
-    }
-  };
+  // const handleCheckout = async () => {
+  //   try {
+  //     if (itemList !== null) {
+  //       await createSimpleTransaction(
+  //         itemList.map((item: any) => ({
+  //           read: {
+  //             ref: `${collections.carts.string}/${cartId}/items/${item.id}`,
+  //             properties: ["productId", "quantity"],
+  //           },
+  //           write: {
+  //             ref: `${collections.orders.string}/${cartId}/items/${item.id}`,
+  //             initialProps: { createdAt: new Date() },
+  //             properties: ["productId", "quantity"],
+  //           },
+  //         }))
+  //       );
+  //     }
+  //   } catch (err) {
+  //     showError();
+  //   }
+  // };
 
   return (
     <>
@@ -179,7 +172,6 @@ const Cart: React.FC<ICartProps> = ({ cartId }) => {
                 bottom: theme.spacing(2),
               }}
             >
-              {console.log(selectedItems === null || selectedItems.length < 1)}
               <Button
                 disabled={selectedItems === null || selectedItems.length < 1}
                 size="large"

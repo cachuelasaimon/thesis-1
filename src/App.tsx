@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { APITest } from "pages";
 // Routing
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // Layouts
 import { WithAuth } from "layouts";
@@ -12,11 +12,6 @@ import { IPage } from "types";
 
 // UI
 import { ThemeProvider } from "@mui/material/styles";
-import { Theme } from "@mui/material";
-import {
-  // createStyles,
-  makeStyles,
-} from "@mui/styles";
 import CustomTheme from "theme";
 
 // Fonts
@@ -89,11 +84,12 @@ const Pages: IPage[] = [
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(
-    localStorage.getItem("darkMode") === null
-      ? true
-      : localStorage.getItem("darkMode") === "true"
-      ? true
-      : false
+    true
+    // localStorage.getItem("darkMode") === null
+    //   ? true
+    //   : localStorage.getItem("darkMode") === "true"
+    //   ? true
+    //   : false
   );
   console.log(
     localStorage.getItem("darkMode") === "true",

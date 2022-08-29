@@ -16,8 +16,8 @@ export enum ORDER_STATUS {
 export const orderValidation = yup.object({
   paymentMethod: yup.string().required("required").nullable(),
   paymentStatus: yup.string().required("required").nullable(),
-  productId: yup.object({}).nullable(),
-  userId: yup.object({}).nullable(),
+  productId: yup.object({}).required("Required").nullable(),
+  userId: yup.object({}).required("Required").nullable(),
   status: yup.string().required("required").nullable(),
   quantity: yup.string().required("required").nullable(),
 });

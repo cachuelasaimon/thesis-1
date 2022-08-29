@@ -25,7 +25,7 @@ import PaymentMethod from "./PaymentMethod";
 interface CheckoutModalProps {
   onClose: () => void;
   open: boolean;
-  selectedItems: IProduct | null;
+  selectedItems: IProduct[] | null;
 }
 
 const Transition = forwardRef(

@@ -22,7 +22,6 @@ import {
   useLogin,
 } from "utils";
 import { IProduct, IReview } from "types";
-// ! Transfer to another file
 
 const SingleProduct: FC = () => {
   const { user: userCreds } = useLogin();
@@ -51,10 +50,10 @@ const SingleProduct: FC = () => {
   });
   const reviews: IReview[] = reviewsDocs || [];
   const noReviews = reviewsDocs.length < 1;
-  const rating = !noReviews
-    ? reviews.reduce((acc: number, curr: IReview) => acc + curr.rating, 0) /
-      reviews.length
-    : 0;
+  // const rating = !noReviews
+  //   ? reviews.reduce((acc: number, curr: IReview) => acc + curr.rating, 0) /
+  //     reviews.length
+  //   : 0;
 
   const navigate = useNavigate();
   if (productNotFound)

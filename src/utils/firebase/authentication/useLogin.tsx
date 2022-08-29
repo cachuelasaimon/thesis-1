@@ -33,6 +33,8 @@ export const useLogin = (redirectTo?: string) => {
     };
 
     if (!isLoading) checkIfUserIsLoggedIn();
+    // This useEffect should only monitor the isLoading state
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
   // onAuthStateChanged(auth, (user) => {

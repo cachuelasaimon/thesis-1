@@ -15,7 +15,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["node"]
   },
   "extends": "./node_modules/@microsoft/rush-stack-compiler-3.3/includes/tsconfig-web.json",
   "include": ["src"],

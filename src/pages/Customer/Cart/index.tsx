@@ -1,8 +1,7 @@
 import React from "react";
 import { UserWrapper, Cart } from "components";
-import { Box, Grid, Paper, Typography } from "@mui/material";
-import { collections, useListen, useLogin } from "utils";
-import { IUser } from "types";
+import { Box, Grid } from "@mui/material";
+import { useLogin } from "utils";
 
 const CartPage: React.FC = () => {
   // ? test

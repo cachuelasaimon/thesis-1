@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { Paper, Alert } from "@mui/material";
+import { Paper, Alert, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Info } from "@mui/icons-material";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
-const PaymentMethod: FC = () => {
+const PaymentMethod: FC = (props: any) => {
   const theme = useTheme();
   return (
     <>
@@ -24,10 +24,15 @@ const PaymentMethod: FC = () => {
           justifyContent: "center",
           padding: theme.spacing(3),
           background: theme.palette.common.white,
+          marginBottom: theme.spacing(3),
         }}
       >
         <PayPalButtons />
       </Paper>
+
+      <Button onClick={() => props.setStep((curr: number) => --curr)}>
+        Previous
+      </Button>
     </>
   );
 };

@@ -1,6 +1,5 @@
 import { createTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-import { Theme } from "@mui/material/styles";
 
 const commonProps = {
   typography: {

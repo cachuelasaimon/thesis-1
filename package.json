@@ -20,7 +20,6 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/firebase": "^3.2.1",
     "@types/jest": "^27.4.0",
-    "@types/node": "^18.0.6",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "ag-grid-community": "^28.0.2",
@@ -73,5 +72,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.13"
   }
 }

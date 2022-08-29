@@ -8,8 +8,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import StarIcon from "@mui/icons-material/Star";
-import PhoneIcon from "@mui/icons-material/Phone";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AppBar from "@mui/material/AppBar";

@@ -7,7 +7,6 @@ import {
   Paper,
   IconButton,
   Box,
-  TextField,
   Button,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -134,12 +133,12 @@ const OrdersPage: React.FC = () => {
                 View all the orders
               </Typography>
               <Box mt={2} display="flex" justifyContent="space-between">
-                <TextField
+                {/* <TextField
                   sx={{ "> input": {} }}
                   size="small"
                   variant="filled"
                   label="search"
-                />{" "}
+                />{" "} */}
                 <Button variant="contained" onClick={handleOpenAddModal}>
                   Add Order
                 </Button>

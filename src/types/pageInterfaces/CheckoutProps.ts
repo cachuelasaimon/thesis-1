@@ -1,4 +1,3 @@
-import { BaseSyntheticEvent } from "react";
 import { IItem } from "types/IItem";
 import { IProduct } from "types/IProduct";
 

@@ -13,9 +13,16 @@ export const WithAuth: FC<IWithAuthProps> = ({ Component, requireAdmin }) => {
   const [userInfo, setUserInfo] = useState<IUser | undefined>();
   const navigate = useNavigate();
 
-  useEffect(() => checkState(), []);
+  useEffect(() => {
+    checkState();
+    // only run checkState on mount and nowhere else
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
+    /**
+     * Fetches userInfo using the Get hook
+     */
     const getUserInfo = async () => {
       const data = await Get<IUser>({
         docRef: `${collections.users.string}/${user?.uid}`,
@@ -24,7 +31,15 @@ export const WithAuth: FC<IWithAuthProps> = ({ Component, requireAdmin }) => {
       setUserInfo(data);
     };
 
+    // if a user is logged in but user info is not yet fetched, fetch user information from user collection
     if (!userInfo && user) getUserInfo();
+
+    /**  Checks if:
+     * - the route passed requires admin privileges
+     * - if the user is an admin
+     *
+     * if the route requires admin privilege, and the user is not an admin, then redirect the user back to homepage
+     */
 
     if (
       userInfo &&
@@ -33,6 +48,9 @@ export const WithAuth: FC<IWithAuthProps> = ({ Component, requireAdmin }) => {
       requireAdmin
     )
       navigate("/");
+
+    // only run this useEffect function when userInfo and user changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo, user]);
 
   if (!requireAdmin) return <>{!isLoading && <Component user={user} />}</>;
