@@ -180,7 +180,7 @@ const LoginPage: React.FC = (props: any) => {
                     }}
                     onClick={() => navigate("/sign-up")}
                   >
-                    Create an acccount
+                    Create an account
                   </ButtonBase>
                 </Typography>
               </Box>
