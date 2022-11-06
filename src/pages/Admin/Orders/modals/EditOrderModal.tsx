@@ -25,7 +25,7 @@ interface EditOrderModalProps {
   users: IUser[] | null;
   products: IProduct[] | null;
   order: any;
-  setRows: any;
+  setRows?: any;
 }
 
 const EditOrderModal: FC<EditOrderModalProps> = ({
@@ -125,13 +125,14 @@ const EditOrderModal: FC<EditOrderModalProps> = ({
                         {...params}
                         fullWidth
                         error={
-                          touched["paymentMethod"] && !!errors["paymentMethod"]
+                          (touched as any)["paymentMethod"] &&
+                          !!(errors as any)["paymentMethod"]
                         }
                         name="paymentMethod"
                         label="Payment Method"
                         helperText={
-                          touched["paymentMethod"]
-                            ? errors["paymentMethod"]
+                          (touched as any)["paymentMethod"]
+                            ? (errors as any)["paymentMethod"]
                             : ""
                         }
                       />
@@ -151,13 +152,14 @@ const EditOrderModal: FC<EditOrderModalProps> = ({
                         {...params}
                         fullWidth
                         error={
-                          touched["paymentStatus"] && !!errors["paymentStatus"]
+                          (touched as any)["paymentStatus"] &&
+                          !!(errors as any)["paymentStatus"]
                         }
                         name="paymentStatus"
                         label="Payment Status"
                         helperText={
-                          touched["paymentStatus"]
-                            ? errors["paymentStatus"]
+                          (touched as any)["paymentStatus"]
+                            ? (errors as any)["paymentStatus"]
                             : ""
                         }
                       />
@@ -176,10 +178,17 @@ const EditOrderModal: FC<EditOrderModalProps> = ({
                       <MuiTextField
                         {...params}
                         fullWidth
-                        error={touched["userId"] && !!errors["userId"]}
+                        error={
+                          (touched as any)["userId"] &&
+                          !!(errors as any)["userId"]
+                        }
                         name="userId"
                         label="User"
-                        helperText={touched["userId"] ? errors["userId"] : ""}
+                        helperText={
+                          (touched as any)["userId"]
+                            ? (errors as any)["userId"]
+                            : ""
+                        }
                       />
                     )}
                   />
@@ -196,11 +205,16 @@ const EditOrderModal: FC<EditOrderModalProps> = ({
                       <MuiTextField
                         {...params}
                         fullWidth
-                        error={touched["productId"] && !!errors["productId"]}
+                        error={
+                          (touched as any)["productId"] &&
+                          !!(errors as any)["productId"]
+                        }
                         name="productId"
                         label="Product"
                         helperText={
-                          touched["productId"] ? errors["productId"] : ""
+                          (touched as any)["productId"]
+                            ? (errors as any)["productId"]
+                            : ""
                         }
                       />
                     )}
@@ -219,13 +233,14 @@ const EditOrderModal: FC<EditOrderModalProps> = ({
                         {...params}
                         fullWidth
                         error={
-                          touched["paymentStatus"] && !!errors["paymentStatus"]
+                          (touched as any)["paymentStatus"] &&
+                          !!(errors as any)["paymentStatus"]
                         }
                         name="paymentStatus"
                         label="Payment Status"
                         helperText={
-                          touched["paymentStatus"]
-                            ? errors["paymentStatus"]
+                          (touched as any)["paymentStatus"]
+                            ? (errors as any)["paymentStatus"]
                             : ""
                         }
                       />

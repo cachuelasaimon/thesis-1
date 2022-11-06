@@ -47,7 +47,7 @@ const AddOrderModal: FC<AddOrderModalProps> = ({
           productDoc.exists() &&
           productDoc.data().stocks >= values.quantity
         ) {
-          //  Bawasan stocl
+          //  Bawasan stock
           await transaction.update(
             doc(
               database,
@@ -123,13 +123,14 @@ const AddOrderModal: FC<AddOrderModalProps> = ({
                         {...params}
                         fullWidth
                         error={
-                          touched["paymentMethod"] && !!errors["paymentMethod"]
+                          (touched as any)["paymentMethod"] &&
+                          !!(errors as any)["paymentMethod"]
                         }
                         name="paymentMethod"
                         label="Payment Method"
                         helperText={
-                          touched["paymentMethod"]
-                            ? errors["paymentMethod"]
+                          (touched as any)["paymentMethod"]
+                            ? (errors as any)["paymentMethod"]
                             : ""
                         }
                       />
@@ -149,13 +150,14 @@ const AddOrderModal: FC<AddOrderModalProps> = ({
                         {...params}
                         fullWidth
                         error={
-                          touched["paymentStatus"] && !!errors["paymentStatus"]
+                          (touched as any)["paymentStatus"] &&
+                          !!(errors as any)["paymentStatus"]
                         }
                         name="paymentStatus"
                         label="Payment Status"
                         helperText={
-                          touched["paymentStatus"]
-                            ? errors["paymentStatus"]
+                          (touched as any)["paymentStatus"]
+                            ? (errors as any)["paymentStatus"]
                             : ""
                         }
                       />
@@ -174,10 +176,17 @@ const AddOrderModal: FC<AddOrderModalProps> = ({
                       <MuiTextField
                         {...params}
                         fullWidth
-                        error={touched["userId"] && !!errors["userId"]}
+                        error={
+                          (touched as any)["userId"] &&
+                          !!(errors as any)["userId"]
+                        }
                         name="userId"
                         label="User"
-                        helperText={touched["userId"] ? errors["userId"] : ""}
+                        helperText={
+                          (touched as any)["userId"]
+                            ? (errors as any)["userId"]
+                            : ""
+                        }
                       />
                     )}
                   />
@@ -194,11 +203,16 @@ const AddOrderModal: FC<AddOrderModalProps> = ({
                       <MuiTextField
                         {...params}
                         fullWidth
-                        error={touched["productId"] && !!errors["productId"]}
+                        error={
+                          (touched as any)["productId"] &&
+                          !!(errors as any)["productId"]
+                        }
                         name="productId"
                         label="Product"
                         helperText={
-                          touched["productId"] ? errors["productId"] : ""
+                          (touched as any)["productId"]
+                            ? (errors as any)["productId"]
+                            : ""
                         }
                       />
                     )}
@@ -216,10 +230,17 @@ const AddOrderModal: FC<AddOrderModalProps> = ({
                       <MuiTextField
                         {...params}
                         fullWidth
-                        error={touched["status"] && !!errors["status"]}
+                        error={
+                          (touched as any)["status"] &&
+                          !!(errors as any)["status"]
+                        }
                         name="status"
                         label="Order Status"
-                        helperText={touched["status"] ? errors["status"] : ""}
+                        helperText={
+                          (touched as any)["status"]
+                            ? (errors as any)["status"]
+                            : ""
+                        }
                       />
                     )}
                   />

@@ -25,7 +25,7 @@ interface EditOrderModalProps {
   users: IUser[] | null;
   products: IProduct[] | null;
   order: any;
-  setRows: any;
+  setRows?: any;
 }
 
 const EditOrderModal: FC<EditOrderModalProps> = ({
