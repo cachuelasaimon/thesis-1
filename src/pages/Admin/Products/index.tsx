@@ -16,7 +16,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useListen, collections, createHashMap } from "utils";
 import { IProduct } from "types";
 import { Edit, Delete } from "@mui/icons-material";
-import { EditOrderModal, AddOrderModal } from "./modals";
+import { EditProductModal, AddProductModal } from "./modals";
 
 const OrdersPage: React.FC = () => {
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
@@ -146,7 +146,7 @@ const OrdersPage: React.FC = () => {
             </Container>
           </Grid>
           {selectedOrder && (
-            <EditOrderModal
+            <EditProductModal
               order={selectedOrder}
               users={null}
               products={products}
@@ -154,7 +154,7 @@ const OrdersPage: React.FC = () => {
               onClose={handleCloseEditModal}
             />
           )}
-          <AddOrderModal
+          <AddProductModal
             users={null}
             products={products}
             open={openAddModal}

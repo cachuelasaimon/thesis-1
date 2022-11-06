@@ -1,2 +1,2 @@
-export { default as EditOrderModal } from "./EditOrderModal";
-export { default as AddOrderModal } from "./AddOrderModal";
+export { default as EditProductModal } from "./EditProductModal";
+export { default as AddProductModal } from "./AddProductModal";
