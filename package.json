@@ -1,6 +1,6 @@
 {
   "name": "ecommerce-app",
-  "version": "0.3.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@adyen/api-library": "^11.0.0",
@@ -53,7 +53,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && firebase deploy"
+    "deploy:prod": "yarn build && firebase deploy"
   },
   "eslintConfig": {
     "extends": [
