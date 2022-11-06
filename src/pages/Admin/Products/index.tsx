@@ -10,12 +10,13 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import { Check as CheckIcon } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useListen, collections, createHashMap } from "utils";
-import { IUser, IProduct, IOrder } from "types";
+import { IProduct } from "types";
 import { Edit, Delete } from "@mui/icons-material";
-import { EditOrderModal, AddOrderModal } from "./modals";
+import { EditProductModal, AddProductModal } from "./modals";
 
 const OrdersPage: React.FC = () => {
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
@@ -28,62 +29,48 @@ const OrdersPage: React.FC = () => {
 
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
 
-  const { docs: users, isLoading: usersLoading } = useListen<IUser>({
-    collectionRef: collections.users.ref,
-  });
   const { docs: products, isLoading: productLoading } = useListen<IProduct>({
     collectionRef: collections.products.ref,
   });
-  const { docs: orders, isLoading: ordersLoading } = useListen<IOrder>({
-    collectionRef: collections.orders.ref,
-  });
 
-  const usersMap = createHashMap(users as IUser[], "id");
   const productsMap = createHashMap(products as IProduct[], "id");
 
-  const isLoading = usersLoading || productLoading || ordersLoading;
+  const isLoading = productLoading;
 
   // Set Row: rows are set in use effect to enable filtering, only monitor isLoading variable, this is to prevent the useEffect loop when filtering rows
   const [rows, setRows] = useState<any>([]);
   useEffect(() => {
     if (rows.length < 1 && !isLoading) {
-      setRows(orders);
+      setRows(products);
     }
     // eslint-disable-next-line
   }, [isLoading]);
 
   const columns: GridColDef[] = [
     {
-      field: "userId",
-      headerName: "User",
+      field: "name",
+      headerName: "Product Name",
       width: 220,
-      valueGetter: (params: any) => {
-        const user = usersMap.get(params.value);
-        return user?.displayName;
-      },
     },
     {
-      field: "productId",
-      headerName: "Product Ordered",
-      width: 220,
-      valueGetter: (params: any) => {
-        const product = productsMap.get(params.value);
-        return product?.name;
-      },
-    },
-    {
-      field: "quantity",
-      headerName: "Quantity",
+      field: "description",
+      headerName: "Description",
       width: 150,
     },
     {
-      field: "paymentMethod",
-      headerName: "Payment Method",
-      width: 220,
+      field: "price",
+      headerName: "Price",
+      width: 150,
     },
     {
-      field: "status",
-      headerName: "Status",
+      field: "stocks",
+      headerName: "Stock",
+      width: 150,
+    },
+    {
+      field: "show",
+      headerName: "Show Product",
+      renderCell: (val: any) => (val ? <CheckIcon /> : <></>),
       width: 150,
     },
     {
@@ -96,7 +83,6 @@ const OrdersPage: React.FC = () => {
       renderCell: (params: any) => {
         const data = {
           ...params.row,
-          userId: usersMap.get(params.row.userId),
           productId: productsMap.get(params.row.productId),
         };
 
@@ -128,10 +114,10 @@ const OrdersPage: React.FC = () => {
           <Grid container sx={{ minHeight: "100vh" }}>
             <Container sx={{ marginTop: theme.spacing(3) }}>
               <Typography gutterBottom color="textPrimary" variant="h4">
-                Orders
+                Products
               </Typography>{" "}
               <Typography color="textPrimary" variant="body1">
-                View all the orders
+                View all products in your inventory
               </Typography>
               <Box mt={2} display="flex" justifyContent="space-between">
                 <TextField
@@ -160,16 +146,16 @@ const OrdersPage: React.FC = () => {
             </Container>
           </Grid>
           {selectedOrder && (
-            <EditOrderModal
+            <EditProductModal
               order={selectedOrder}
-              users={users}
+              users={null}
               products={products}
               open={openEditModal}
               onClose={handleCloseEditModal}
             />
           )}
-          <AddOrderModal
-            users={users}
+          <AddProductModal
+            users={null}
             products={products}
             open={openAddModal}
             onClose={handleCloseAddModal}
